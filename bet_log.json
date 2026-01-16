@@ -1,0 +1,50 @@
+[
+  {
+    "timestamp": "2026-01-16T14:21:50.601094",
+    "match": "Manchester Utd vs Manchester City",
+    "line": "u35",
+    "model_prob_raw": 0.719,
+    "model_prob_pct": 71.9,
+    "book_odds": 1.88,
+    "edge": 18.7,
+    "lambda": 2.68,
+    "closing_odds": null,
+    "result": null
+  },
+  {
+    "timestamp": "2026-01-16T18:06:00.876000",
+    "match": "Chelsea vs Brentford",
+    "line": "o45",
+    "model_prob_raw": 0.615,
+    "model_prob_pct": 61.5,
+    "book_odds": 4.5,
+    "edge": 39.2,
+    "lambda": 5.32,
+    "closing_odds": null,
+    "result": null
+  },
+  {
+    "timestamp": "2026-01-16T18:08:29.624534",
+    "match": "Leeds United vs Fulham",
+    "line": "o45",
+    "model_prob_raw": 0.601,
+    "model_prob_pct": 60.1,
+    "book_odds": 2.48,
+    "edge": 19.8,
+    "lambda": 5.24,
+    "closing_odds": null,
+    "result": null
+  },
+  {
+    "timestamp": "2026-01-16T18:10:04.890038",
+    "match": "Aston Villa vs Everton",
+    "line": "u35",
+    "model_prob_raw": 0.758,
+    "model_prob_pct": 75.8,
+    "book_odds": 1.88,
+    "edge": 22.7,
+    "lambda": 2.5,
+    "closing_odds": null,
+    "result": null
+  }
+]

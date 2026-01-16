@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Edge System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-hover: #f1f5f9;
+            --border: #e2e8f0;
+            --border-focus: #3b82f6;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --accent: #3b82f6;
+            --accent-light: #eff6ff;
+            --success: #10b981;
+            --success-light: #ecfdf5;
+            --danger: #ef4444;
+            --danger-light: #fef2f2;
+            --warning: #f59e0b;
+            --warning-light: #fffbeb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .model-badges {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 0.375rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .badge strong {
+            color: var(--text);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0;
+        }
+
+        .tab {
+            padding: 0.75rem 1.25rem;
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            transition: all 0.15s;
+        }
+
+        .tab:hover {
+            color: var(--text);
+        }
+
+        .tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .label-row {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            margin-bottom: 0.375rem;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        /* Tooltip */
+        .tooltip-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px;
+            height: 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            font-size: 10px;
+            color: var(--text-muted);
+            cursor: help;
+            position: relative;
+        }
+
+        .tooltip-icon:hover {
+            background: var(--accent-light);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .tooltip-icon .tooltip-text {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--text);
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 400;
+            white-space: normal;
+            width: 220px;
+            text-align: left;
+            line-height: 1.4;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: opacity 0.2s, visibility 0.2s;
+        }
+
+        .tooltip-icon .tooltip-text::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--text);
+        }
+
+        .tooltip-icon:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        select, input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 0.625rem 0.75rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: var(--text);
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        /* Section Dividers */
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            margin: 1.25rem 0 0.75rem;
+        }
+
+        /* Odds Grid */
+        .odds-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+
+        .odds-row.four {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .odds-cell {
+            text-align: center;
+        }
+
+        .odds-cell label {
+            display: block;
+            font-size: 0.75rem;
+            margin-bottom: 0.25rem;
+            color: var(--text-muted);
+        }
+
+        .odds-cell input {
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Button */
+        button {
+            padding: 0.625rem 1rem;
+            background: var(--accent);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-family: inherit;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        button:hover {
+            background: #2563eb;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        button.full {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        button.secondary {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        button.secondary:hover {
+            background: var(--bg-hover);
+        }
+
+        button.success {
+            background: var(--success);
+        }
+
+        button.success:hover {
+            background: #059669;
+        }
+
+        button.danger {
+            background: var(--danger);
+        }
+
+        button.danger:hover {
+            background: #dc2626;
+        }
+
+        button.small {
+            padding: 0.375rem 0.625rem;
+            font-size: 0.75rem;
+        }
+
+        /* Results */
+        .placeholder {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+        }
+
+        .placeholder-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .results {
+            display: none;
+        }
+
+        .results.active {
+            display: block;
+        }
+
+        /* Result Header */
+        .result-header {
+            text-align: center;
+            padding: 1.25rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .match-name {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .lambda-value {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .lambda-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.375rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Probability Table */
+        .prob-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .prob-table th {
+            text-align: left;
+            padding: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .prob-table td {
+            padding: 0.625rem 0.5rem;
+            border-bottom: 1px solid var(--border);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .prob-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .edge-positive {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .edge-negative {
+            color: var(--danger);
+        }
+
+        .edge-neutral {
+            color: var(--text-muted);
+        }
+
+        /* Best Bet Box */
+        .best-bet {
+            background: var(--success-light);
+            border: 1px solid var(--success);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .best-bet-label {
+            font-size: 0.75rem;
+            color: var(--success);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.025em;
+        }
+
+        .best-bet-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0.25rem 0;
+        }
+
+        .best-bet-edge {
+            font-size: 0.9rem;
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .no-value-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .feature-item {
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            padding: 0.5rem;
+            text-align: center;
+        }
+
+        .feature-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.125rem;
+        }
+
+        .feature-value {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text);
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 3rem 1rem;
+            display: none;
+        }
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 0.75rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .stat-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .stat-value.positive { color: var(--success); }
+        .stat-value.negative { color: var(--danger); }
+        .stat-value.warning { color: var(--warning); }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-top: 0.25rem;
+        }
+
+        /* Bet History Table */
+        .bet-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .bet-table th {
+            text-align: left;
+            padding: 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--border);
+            background: var(--bg-secondary);
+        }
+
+        .bet-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .bet-table tr:hover {
+            background: var(--bg-hover);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-badge.won {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .status-badge.lost {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+        .status-badge.pending {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.375rem;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: var(--text);
+        }
+
+        .modal-body {
+            margin-bottom: 1.25rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Football Edge System</h1>
+            <p class="subtitle">Pre-match card totals pricing engine</p>
+            <div class="model-badges" id="modelInfo">
+                <span class="badge">Loading...</span>
+            </div>
+        </header>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('predict')">🔮 Predict</button>
+            <button class="tab" onclick="switchTab('history')">📜 Bet History</button>
+        </div>
+
+        <!-- Predict Tab -->
+        <div id="predictTab" class="tab-content active">
+            <div class="main-grid">
+                <!-- Input Form -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Match Input</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="label-row">
+                            <label>Home Team</label>
+                        </div>
+                        <select id="homeTeam">
+                            <option value="">Select team...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="label-row">
+                            <label>Away Team</label>
+                        </div>
+                        <select id="awayTeam">
+                            <option value="">Select team...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="label-row">
+                            <label>Referee</label>
+                            <span class="tooltip-icon">?
+                                <span class="tooltip-text">Each referee has a "strictness" rating based on their historical card average. Higher = more cards expected.</span>
+                            </span>
+                        </div>
+                        <select id="referee">
+                            <option value="">Select referee (optional)...</option>
+                        </select>
+                    </div>
+
+                    <div class="section-label">
+                        1X2 Odds
+                        <span class="tooltip-icon">?
+                            <span class="tooltip-text"><strong>1X2 odds</strong> are match result odds: Home win (1), Draw (X), Away win (2). We use these to calculate team strength — favorites typically commit fewer desperate fouls.</span>
+                        </span>
+                    </div>
+                    <div class="odds-row">
+                        <div class="odds-cell">
+                            <label>Home (1)</label>
+                            <input type="number" id="oddsHome" step="0.01" placeholder="2.50">
+                        </div>
+                        <div class="odds-cell">
+                            <label>Draw (X)</label>
+                            <input type="number" id="oddsDraw" step="0.01" placeholder="3.40">
+                        </div>
+                        <div class="odds-cell">
+                            <label>Away (2)</label>
+                            <input type="number" id="oddsAway" step="0.01" placeholder="2.80">
+                        </div>
+                    </div>
+
+                    <div class="section-label">
+                        Card Market Odds
+                        <span class="tooltip-icon">?
+                            <span class="tooltip-text"><strong>Card market odds</strong> are what your bookmaker offers for Over/Under total cards. Enter any lines available to calculate your betting edge vs the market.</span>
+                        </span>
+                    </div>
+                    <div class="odds-row" style="grid-template-columns: repeat(6, 1fr); margin-bottom: 0.5rem;">
+                        <div class="odds-cell">
+                            <label>O1.5</label>
+                            <input type="number" id="oddsO15" step="0.01" placeholder="-">
+                        </div>
+                        <div class="odds-cell">
+                            <label>O2.5</label>
+                            <input type="number" id="oddsO25" step="0.01" placeholder="-">
+                        </div>
+                        <div class="odds-cell">
+                            <label>O3.5</label>
+                            <input type="number" id="oddsO35" step="0.01" placeholder="-">
+                        </div>
+                        <div class="odds-cell">
+                            <label>O4.5</label>
+                            <input type="number" id="oddsO45" step="0.01" placeholder="-">
+                        </div>
+                        <div class="odds-cell">
+                            <label>O5.5</label>
+                            <input type="number" id="oddsO55" step="0.01" placeholder="-">
+                        </div>
+                        <div class="odds-cell">
+                            <label>O6.5</label>
+                            <input type="number" id="oddsO65" step="0.01" placeholder="-">
+                        </div>
+                    </div>
+                    <div class="odds-row" style="grid-template-columns: repeat(6, 1fr);">
+                        <div class="odds-cell">
+                            <label>U1.5</label>
+                            <input type="number" id="oddsU15" step="0.01" placeholder="-">
+                        </div>
+                        <div class="odds-cell">
+                            <label>U2.5</label>
+                            <input type="number" id="oddsU25" step="0.01" placeholder="-">
+                        </div>
+                        <div class="odds-cell">
+                            <label>U3.5</label>
+                            <input type="number" id="oddsU35" step="0.01" placeholder="-">
+                        </div>
+                        <div class="odds-cell">
+                            <label>U4.5</label>
+                            <input type="number" id="oddsU45" step="0.01" placeholder="-">
+                        </div>
+                        <div class="odds-cell">
+                            <label>U5.5</label>
+                            <input type="number" id="oddsU55" step="0.01" placeholder="-">
+                        </div>
+                        <div class="odds-cell">
+                            <label>U6.5</label>
+                            <input type="number" id="oddsU65" step="0.01" placeholder="-">
+                        </div>
+                    </div>
+
+                    <button class="full" id="predictBtn" onclick="predict()">
+                        Run Prediction
+                    </button>
+                </div>
+
+                <!-- Results -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Prediction Results</span>
+                    </div>
+                    
+                    <div id="loading" class="loading">
+                        <div class="spinner"></div>
+                        <p>Running model...</p>
+                    </div>
+
+                    <div id="placeholder" class="placeholder">
+                        <div class="placeholder-icon">📊</div>
+                        <p>Select teams and enter odds to get predictions</p>
+                    </div>
+
+                    <div id="results" class="results">
+                        <div class="result-header">
+                            <div class="match-name" id="resultMatch">-</div>
+                            <div class="lambda-value" id="resultLambda">-</div>
+                            <div class="lambda-label">
+                                Expected Cards (λ)
+                                <span class="tooltip-icon">?
+                                    <span class="tooltip-text"><strong>Lambda (λ)</strong> is the model's predicted average total cards for this match. It's the key parameter of our Poisson/Negative Binomial distribution.</span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="section-label">
+                            Probabilities & Odds
+                            <span class="tooltip-icon">?
+                                <span class="tooltip-text"><strong>Fair Odds</strong> = 1/probability. If book odds are higher than fair odds, you have positive edge. <strong>Edge</strong> = (model prob - book implied prob) × 100.</span>
+                            </span>
+                        </div>
+                        <table class="prob-table">
+                            <thead>
+                                <tr>
+                                    <th>Line</th>
+                                    <th>Prob</th>
+                                    <th>Fair</th>
+                                    <th>Book</th>
+                                    <th>Edge</th>
+                                </tr>
+                            </thead>
+                            <tbody id="probTable">
+                            </tbody>
+                        </table>
+
+                        <div id="bestBet" class="best-bet" style="display: none;">
+                            <div class="best-bet-label">💰 Best Value</div>
+                            <div class="best-bet-value" id="bestBetLine">-</div>
+                            <div class="best-bet-edge" id="bestBetEdge">-</div>
+                        </div>
+
+                        <div id="noValue" class="no-value-box" style="display: none;">
+                            No value bets identified at current odds
+                        </div>
+
+                        <button id="logBtn" class="full success" onclick="logBet()" style="display: none;">
+                            Log Bet for CLV Tracking
+                        </button>
+
+                        <div class="section-label">
+                            Model Features
+                            <span class="tooltip-icon">?
+                                <span class="tooltip-text">These are the input variables used by the model. <strong>Home/Away Rate</strong> = team's historical card rate. <strong>Ref Strict</strong> = referee's strictness. <strong>Strength Δ</strong> = home advantage differential.</span>
+                            </span>
+                        </div>
+                        <div class="features-grid" id="features"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Tab -->
+        <div id="historyTab" class="tab-content">
+            <!-- Stats -->
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-value" id="statTotal">-</div>
+                    <div class="stat-label">Total Bets</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statWinRate">-</div>
+                    <div class="stat-label">Win Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statAvgEdge">-</div>
+                    <div class="stat-label">Avg Edge</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statAvgCLV">-</div>
+                    <div class="stat-label">Avg CLV</div>
+                </div>
+            </div>
+
+            <!-- Bet History Table -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Bet History</span>
+                    <button class="small secondary" onclick="loadBetHistory()">↻ Refresh</button>
+                </div>
+                
+                <div id="betHistoryContent">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <p>No bets logged yet</p>
+                        <p style="font-size: 0.8rem; margin-top: 0.5rem;">Make predictions and log bets to track your CLV</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            Football Edge System V3 · Validate predictions with CLV over 300-500 bets
+        </footer>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title">Update Bet</span>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editBetId">
+                <div class="form-group">
+                    <label>Match</label>
+                    <input type="text" id="editMatch" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Line</label>
+                    <input type="text" id="editLine" disabled>
+                </div>
+                <div class="form-group">
+                    <div class="label-row">
+                        <label>Closing Odds</label>
+                        <span class="tooltip-icon">?
+                            <span class="tooltip-text">The odds at kickoff. Used to calculate CLV (Closing Line Value) — a key metric for validating your edge.</span>
+                        </span>
+                    </div>
+                    <input type="number" id="editClosingOdds" step="0.01" placeholder="e.g., 1.85">
+                </div>
+                <div class="form-group">
+                    <label>Result</label>
+                    <select id="editResult">
+                        <option value="">Pending</option>
+                        <option value="won">Won ✓</option>
+                        <option value="lost">Lost ✗</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Notes (optional)</label>
+                    <input type="text" id="editNotes" placeholder="Any notes about this bet...">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="secondary" onclick="closeModal()">Cancel</button>
+                <button onclick="saveBetEdit()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title">Delete Bet</span>
+                <button class="modal-close" onclick="closeDeleteModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this bet?</p>
+                <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;" id="deleteMatchInfo"></p>
+                <input type="hidden" id="deleteBetId">
+            </div>
+            <div class="modal-footer">
+                <button class="secondary" onclick="closeDeleteModal()">Cancel</button>
+                <button class="danger" onclick="confirmDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let lastPrediction = null;
+        let modelData = null;
+        let betHistory = [];
+
+        document.addEventListener('DOMContentLoaded', init);
+
+        async function init() {
+            try {
+                const res = await fetch('/api/init');
+                const data = await res.json();
+                
+                if (data.error) {
+                    document.getElementById('modelInfo').innerHTML = `<span class="badge" style="border-color: #ef4444; color: #ef4444;">Error: ${data.error}</span>`;
+                    return;
+                }
+
+                modelData = data;
+
+                const homeSelect = document.getElementById('homeTeam');
+                const awaySelect = document.getElementById('awayTeam');
+                const refSelect = document.getElementById('referee');
+
+                data.teams.forEach(team => {
+                    homeSelect.add(new Option(team, team));
+                    awaySelect.add(new Option(team, team));
+                });
+
+                data.referees.forEach(ref => {
+                    refSelect.add(new Option(ref, ref));
+                });
+
+                document.getElementById('modelInfo').innerHTML = `
+                    <span class="badge">Model: <strong>${data.model_type}</strong></span>
+                    <span class="badge">Dispersion: <strong>${data.dispersion}</strong></span>
+                    <span class="badge">League Avg: <strong>${data.league_avg}</strong> cards</span>
+                `;
+
+            } catch (err) {
+                document.getElementById('modelInfo').innerHTML = `<span class="badge" style="border-color: #ef4444; color: #ef4444;">Failed to load model</span>`;
+            }
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            document.querySelector(`.tab[onclick="switchTab('${tab}')"]`).classList.add('active');
+            document.getElementById(tab + 'Tab').classList.add('active');
+            
+            if (tab === 'history') {
+                loadBetHistory();
+            }
+        }
+
+        async function loadBetHistory() {
+            try {
+                // Load stats
+                const statsRes = await fetch('/api/bet_stats');
+                const stats = await statsRes.json();
+                
+                document.getElementById('statTotal').textContent = stats.total_bets;
+                document.getElementById('statWinRate').textContent = stats.win_rate !== null ? stats.win_rate + '%' : '-';
+                document.getElementById('statWinRate').className = 'stat-value' + (stats.win_rate > 50 ? ' positive' : stats.win_rate < 50 ? ' negative' : '');
+                document.getElementById('statAvgEdge').textContent = stats.avg_edge !== null ? '+' + stats.avg_edge + '%' : '-';
+                document.getElementById('statAvgEdge').className = 'stat-value' + (stats.avg_edge > 0 ? ' positive' : '');
+                document.getElementById('statAvgCLV').textContent = stats.avg_clv !== null ? (stats.avg_clv > 0 ? '+' : '') + stats.avg_clv + '%' : '-';
+                document.getElementById('statAvgCLV').className = 'stat-value' + (stats.avg_clv > 0 ? ' positive' : stats.avg_clv < 0 ? ' negative' : '');
+
+                // Load bets
+                const betsRes = await fetch('/api/bet_log');
+                betHistory = await betsRes.json();
+                
+                if (betHistory.length === 0) {
+                    document.getElementById('betHistoryContent').innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📭</div>
+                            <p>No bets logged yet</p>
+                            <p style="font-size: 0.8rem; margin-top: 0.5rem;">Make predictions and log bets to track your CLV</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const lineLabels = { 
+                    o15: 'O1.5', u15: 'U1.5', o25: 'O2.5', u25: 'U2.5',
+                    o35: 'O3.5', u35: 'U3.5', o45: 'O4.5', u45: 'U4.5',
+                    o55: 'O5.5', u55: 'U5.5', o65: 'O6.5', u65: 'U6.5'
+                };
+                
+                let tableHtml = `
+                    <table class="bet-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Match</th>
+                                <th>Line</th>
+                                <th>Edge</th>
+                                <th>Book</th>
+                                <th>Close</th>
+                                <th>CLV</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                // Show newest first
+                const sortedBets = [...betHistory].reverse();
+                
+                sortedBets.forEach(bet => {
+                    const date = new Date(bet.timestamp).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+                    const status = bet.result || 'pending';
+                    const clv = bet.clv !== undefined && bet.clv !== null ? (bet.clv > 0 ? '+' : '') + bet.clv + '%' : '-';
+                    const clvClass = bet.clv > 0 ? 'edge-positive' : bet.clv < 0 ? 'edge-negative' : '';
+                    
+                    tableHtml += `
+                        <tr>
+                            <td>${date}</td>
+                            <td>${bet.match}</td>
+                            <td>${lineLabels[bet.line] || bet.line}</td>
+                            <td class="edge-positive">+${bet.edge}%</td>
+                            <td>@${bet.book_odds}</td>
+                            <td>${bet.closing_odds ? '@' + bet.closing_odds : '-'}</td>
+                            <td class="${clvClass}">${clv}</td>
+                            <td><span class="status-badge ${status}">${status}</span></td>
+                            <td class="actions">
+                                <button class="small secondary" onclick="openEditModal(${bet.id})">Edit</button>
+                                <button class="small danger" onclick="openDeleteModal(${bet.id})">Del</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                tableHtml += '</tbody></table>';
+                document.getElementById('betHistoryContent').innerHTML = tableHtml;
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById('betHistoryContent').innerHTML = `
+                    <div class="empty-state">
+                        <p>Failed to load bet history</p>
+                    </div>
+                `;
+            }
+        }
+
+        function openEditModal(betId) {
+            const bet = betHistory.find(b => b.id === betId);
+            if (!bet) return;
+
+            const lineLabels = { 
+                o15: 'Over 1.5', u15: 'Under 1.5', o25: 'Over 2.5', u25: 'Under 2.5',
+                o35: 'Over 3.5', u35: 'Under 3.5', o45: 'Over 4.5', u45: 'Under 4.5',
+                o55: 'Over 5.5', u55: 'Under 5.5', o65: 'Over 6.5', u65: 'Under 6.5'
+            };
+            
+            document.getElementById('editBetId').value = betId;
+            document.getElementById('editMatch').value = bet.match;
+            document.getElementById('editLine').value = lineLabels[bet.line] || bet.line;
+            document.getElementById('editClosingOdds').value = bet.closing_odds || '';
+            document.getElementById('editResult').value = bet.result || '';
+            document.getElementById('editNotes').value = bet.notes || '';
+            
+            document.getElementById('editModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('editModal').classList.remove('active');
+        }
+
+        async function saveBetEdit() {
+            const betId = document.getElementById('editBetId').value;
+            const closingOdds = document.getElementById('editClosingOdds').value;
+            const result = document.getElementById('editResult').value;
+            const notes = document.getElementById('editNotes').value;
+
+            try {
+                const res = await fetch(`/api/bet_log/${betId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        closing_odds: closingOdds ? parseFloat(closingOdds) : null,
+                        result: result || null,
+                        notes: notes || null,
+                    })
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    closeModal();
+                    loadBetHistory();
+                } else {
+                    alert(data.error || 'Failed to update bet');
+                }
+            } catch (err) {
+                alert('Failed to update bet');
+            }
+        }
+
+        function openDeleteModal(betId) {
+            const bet = betHistory.find(b => b.id === betId);
+            if (!bet) return;
+
+            document.getElementById('deleteBetId').value = betId;
+            document.getElementById('deleteMatchInfo').textContent = `${bet.match} - ${bet.line}`;
+            document.getElementById('deleteModal').classList.add('active');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('active');
+        }
+
+        async function confirmDelete() {
+            const betId = document.getElementById('deleteBetId').value;
+
+            try {
+                const res = await fetch(`/api/bet_log/${betId}`, {
+                    method: 'DELETE'
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    closeDeleteModal();
+                    loadBetHistory();
+                } else {
+                    alert(data.error || 'Failed to delete bet');
+                }
+            } catch (err) {
+                alert('Failed to delete bet');
+            }
+        }
+
+        async function predict() {
+            const home = document.getElementById('homeTeam').value;
+            const away = document.getElementById('awayTeam').value;
+            const referee = document.getElementById('referee').value;
+
+            if (!home || !away) {
+                alert('Please select both teams');
+                return;
+            }
+
+            if (home === away) {
+                alert('Home and away teams must be different');
+                return;
+            }
+
+            const odds = {};
+            const oddsHome = document.getElementById('oddsHome').value;
+            const oddsDraw = document.getElementById('oddsDraw').value;
+            const oddsAway = document.getElementById('oddsAway').value;
+            
+            // All card market lines
+            const oddsO15 = document.getElementById('oddsO15').value;
+            const oddsU15 = document.getElementById('oddsU15').value;
+            const oddsO25 = document.getElementById('oddsO25').value;
+            const oddsU25 = document.getElementById('oddsU25').value;
+            const oddsO35 = document.getElementById('oddsO35').value;
+            const oddsU35 = document.getElementById('oddsU35').value;
+            const oddsO45 = document.getElementById('oddsO45').value;
+            const oddsU45 = document.getElementById('oddsU45').value;
+            const oddsO55 = document.getElementById('oddsO55').value;
+            const oddsU55 = document.getElementById('oddsU55').value;
+            const oddsO65 = document.getElementById('oddsO65').value;
+            const oddsU65 = document.getElementById('oddsU65').value;
+
+            if (oddsHome) odds.home = parseFloat(oddsHome);
+            if (oddsDraw) odds.draw = parseFloat(oddsDraw);
+            if (oddsAway) odds.away = parseFloat(oddsAway);
+            if (oddsO15) odds.o15 = parseFloat(oddsO15);
+            if (oddsU15) odds.u15 = parseFloat(oddsU15);
+            if (oddsO25) odds.o25 = parseFloat(oddsO25);
+            if (oddsU25) odds.u25 = parseFloat(oddsU25);
+            if (oddsO35) odds.o35 = parseFloat(oddsO35);
+            if (oddsU35) odds.u35 = parseFloat(oddsU35);
+            if (oddsO45) odds.o45 = parseFloat(oddsO45);
+            if (oddsU45) odds.u45 = parseFloat(oddsU45);
+            if (oddsO55) odds.o55 = parseFloat(oddsO55);
+            if (oddsU55) odds.u55 = parseFloat(oddsU55);
+            if (oddsO65) odds.o65 = parseFloat(oddsO65);
+            if (oddsU65) odds.u65 = parseFloat(oddsU65);
+
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('results').classList.remove('active');
+            document.getElementById('loading').style.display = 'block';
+
+            try {
+                const res = await fetch('/api/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ home, away, referee, odds })
+                });
+
+                const data = await res.json();
+
+                if (data.error) {
+                    alert(data.error);
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('placeholder').style.display = 'block';
+                    return;
+                }
+
+                lastPrediction = { home, away, referee, odds, result: data };
+                displayResults(data, home, away, odds);
+
+            } catch (err) {
+                alert('Prediction failed');
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('placeholder').style.display = 'block';
+            }
+        }
+
+        function displayResults(data, home, away, odds) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('results').classList.add('active');
+
+            document.getElementById('resultMatch').textContent = `${home} vs ${away}`;
+            document.getElementById('resultLambda').textContent = data.lambda;
+
+            // All available lines grouped by over/under
+            const allLines = ['o15', 'u15', 'o25', 'u25', 'o35', 'u35', 'o45', 'u45', 'o55', 'u55', 'o65', 'u65'];
+            const lineLabels = { 
+                o15: 'Over 1.5', u15: 'Under 1.5',
+                o25: 'Over 2.5', u25: 'Under 2.5',
+                o35: 'Over 3.5', u35: 'Under 3.5', 
+                o45: 'Over 4.5', u45: 'Under 4.5',
+                o55: 'Over 5.5', u55: 'Under 5.5',
+                o65: 'Over 6.5', u65: 'Under 6.5'
+            };
+            
+            let tableHtml = '';
+            allLines.forEach(line => {
+                const prob = data.probs[line];
+                const fair = data.fair_odds[line];
+                const book = odds[line] || '-';
+                const edge = data.edges[line];
+                
+                let edgeClass = 'edge-neutral';
+                let edgeText = '-';
+                if (edge !== undefined) {
+                    edgeClass = edge > 0 ? 'edge-positive' : 'edge-negative';
+                    edgeText = (edge > 0 ? '+' : '') + edge + '%';
+                }
+
+                // Highlight row if it has odds entered
+                const hasOdds = book !== '-';
+                const rowStyle = hasOdds ? 'background: var(--bg-secondary);' : '';
+
+                tableHtml += `
+                    <tr style="${rowStyle}">
+                        <td>${lineLabels[line]}</td>
+                        <td>${prob}%</td>
+                        <td>@${fair}</td>
+                        <td>${hasOdds ? '@' + book : '-'}</td>
+                        <td class="${edgeClass}">${edgeText}</td>
+                    </tr>
+                `;
+            });
+            document.getElementById('probTable').innerHTML = tableHtml;
+
+            if (data.best_bet && data.best_edge > 5) {
+                document.getElementById('bestBet').style.display = 'block';
+                document.getElementById('noValue').style.display = 'none';
+                document.getElementById('bestBetLine').textContent = lineLabels[data.best_bet] || data.best_bet.toUpperCase();
+                document.getElementById('bestBetEdge').textContent = `+${data.best_edge}% edge`;
+                document.getElementById('logBtn').style.display = 'block';
+                document.getElementById('logBtn').textContent = 'Log Bet for CLV Tracking';
+                document.getElementById('logBtn').disabled = false;
+            } else {
+                document.getElementById('bestBet').style.display = 'none';
+                document.getElementById('noValue').style.display = 'block';
+                document.getElementById('logBtn').style.display = 'none';
+            }
+
+            const f = data.features;
+            document.getElementById('features').innerHTML = `
+                <div class="feature-item"><div class="feature-label">Home Rate</div><div class="feature-value">${f.home_rate}</div></div>
+                <div class="feature-item"><div class="feature-label">Away Rate</div><div class="feature-value">${f.away_rate}</div></div>
+                <div class="feature-item"><div class="feature-label">Ref Strict</div><div class="feature-value">${f.ref_strict}</div></div>
+                <div class="feature-item"><div class="feature-label">Strength Δ</div><div class="feature-value">${f.strength_diff}</div></div>
+                <div class="feature-item"><div class="feature-label">Derby</div><div class="feature-value">${f.is_derby ? 'Yes' : 'No'}</div></div>
+                <div class="feature-item"><div class="feature-label">Top 6</div><div class="feature-value">${f.is_top6 ? 'Yes' : 'No'}</div></div>
+            `;
+        }
+
+        async function logBet() {
+            if (!lastPrediction || !lastPrediction.result.best_bet) return;
+
+            const data = lastPrediction.result;
+            const line = data.best_bet;
+            const odds = lastPrediction.odds;
+
+            try {
+                const res = await fetch('/api/log_bet', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        match: `${lastPrediction.home} vs ${lastPrediction.away}`,
+                        line: line,
+                        model_prob: data.probs[line],
+                        book_odds: odds[line],
+                        edge: data.edges[line],
+                        lambda: data.lambda
+                    })
+                });
+
+                const result = await res.json();
+                if (result.success) {
+                    document.getElementById('logBtn').textContent = '✓ Bet Logged';
+                    document.getElementById('logBtn').disabled = true;
+                }
+            } catch (err) {
+                alert('Failed to log bet');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+date,home,away,total_cards,referee
+2025-08-15,Liverpool,Bournemouth,3,Anthony Taylor
+2025-08-16,Aston Villa,Newcastle Utd,3,Craig Pawson
+2025-08-16,Brighton,Fulham,6,Samuel Barrott
+2025-08-16,Tottenham,Burnley,0,Michael Oliver
+2025-08-16,Wolves,Manchester City,3,Jarred Gillett
+2025-08-16,Sunderland,West Ham,1,Robert Jones
+2025-08-17,Manchester Utd,Arsenal,5,Simon Hooper
+2025-08-17,Nott'ham Forest,Brentford,3,Peter Bankes
+2025-08-17,Chelsea,Crystal Palace,5,Darren England
+2025-08-18,Leeds United,Everton,2,Chris Kavanagh
+2025-08-22,West Ham,Chelsea,1,Michael Oliver
+2025-08-23,Arsenal,Leeds United,2,Jarred Gillett
+2025-08-23,Brentford,Aston Villa,3,Tony Harrington
+2025-08-23,Bournemouth,Wolves,7,Thomas Bramall
+2025-08-23,Burnley,Sunderland,1,Michael Salisbury
+2025-08-23,Manchester City,Tottenham,5,Peter Bankes
+2025-08-24,Everton,Brighton,7,Stuart Attwell
+2025-08-24,Crystal Palace,Nott'ham Forest,6,Anthony Taylor
+2025-08-24,Fulham,Manchester Utd,2,Chris Kavanagh
+2025-08-25,Newcastle Utd,Liverpool,6,Simon Hooper
+2025-08-30,Tottenham,Bournemouth,6,Simon Hooper
+2025-08-30,Sunderland,Brentford,5,Anthony Taylor
+2025-08-30,Manchester Utd,Burnley,6,Samuel Barrott
+2025-08-30,Chelsea,Fulham,4,Robert Jones
+2025-08-30,Wolves,Everton,1,Michael Oliver
+2025-08-30,Leeds United,Newcastle Utd,2,Peter Bankes
+2025-08-31,Liverpool,Arsenal,4,Chris Kavanagh
+2025-08-31,Aston Villa,Crystal Palace,5,Stuart Attwell
+2025-08-31,Brighton,Manchester City,4,Darren England
+2025-08-31,Nott'ham Forest,West Ham,0,Craig Pawson
+2025-09-13,Arsenal,Nott'ham Forest,2,Darren England
+2025-09-13,Everton,Aston Villa,6,Simon Hooper
+2025-09-13,Bournemouth,Brighton,8,Peter Bankes
+2025-09-13,Brentford,Chelsea,5,Stuart Attwell
+2025-09-13,Crystal Palace,Sunderland,2,Thomas Bramall
+2025-09-13,Fulham,Leeds United,3,Craig Pawson
+2025-09-13,Newcastle Utd,Wolves,5,Chris Kavanagh
+2025-09-13,West Ham,Tottenham,2,Jarred Gillett
+2025-09-14,Burnley,Liverpool,5,Michael Oliver
+2025-09-14,Manchester City,Manchester Utd,0,Anthony Taylor
+2025-09-20,Fulham,Brentford,5,Michael Oliver
+2025-09-20,Brighton,Tottenham,3,Chris Kavanagh
+2025-09-20,Burnley,Nott'ham Forest,2,Thomas Bramall
+2025-09-20,Manchester Utd,Chelsea,9,Peter Bankes
+2025-09-20,West Ham,Crystal Palace,6,Tony Harrington
+2025-09-20,Liverpool,Everton,5,Darren England
+2025-09-20,Wolves,Leeds United,2,Anthony Taylor
+2025-09-21,Arsenal,Manchester City,3,Stuart Attwell
+2025-09-21,Sunderland,Aston Villa,4,Samuel Barrott
+2025-09-21,Bournemouth,Newcastle Utd,3,Robert Jones
+2025-09-27,Leeds United,Bournemouth,4,Michael Oliver
+2025-09-27,Brentford,Manchester Utd,4,Craig Pawson
+2025-09-27,Chelsea,Brighton,9,Simon Hooper
+2025-09-27,Manchester City,Burnley,4,Robert Jones
+2025-09-27,Crystal Palace,Liverpool,4,Chris Kavanagh
+2025-09-27,Nott'ham Forest,Sunderland,6,Tony Harrington
+2025-09-27,Tottenham,Wolves,5,Michael Salisbury
+2025-09-28,Newcastle Utd,Arsenal,3,Jarred Gillett
+2025-09-28,Aston Villa,Fulham,5,Andy Madley
+2025-09-29,Everton,West Ham,7,Samuel Barrott
+2025-10-03,Bournemouth,Fulham,1,Simon Hooper
+2025-10-04,Arsenal,West Ham,2,John Brooks
+2025-10-04,Chelsea,Liverpool,2,Anthony Taylor
+2025-10-04,Leeds United,Tottenham,5,Thomas Bramall
+2025-10-04,Manchester Utd,Sunderland,5,Stuart Attwell
+2025-10-05,Aston Villa,Burnley,4,Andrew Kitchen
+2025-10-05,Brentford,Manchester City,5,Darren England
+2025-10-05,Wolves,Brighton,6,Jarred Gillett
+2025-10-05,Everton,Crystal Palace,5,Michael Salisbury
+2025-10-05,Newcastle Utd,Nott'ham Forest,4,Peter Bankes
+2025-10-18,Fulham,Arsenal,0,Anthony Taylor
+2025-10-18,Crystal Palace,Bournemouth,5,Jarred Gillett
+2025-10-18,Brighton,Newcastle Utd,1,Craig Pawson
+2025-10-18,Burnley,Leeds United,3,Tim Robinson
+2025-10-18,Nott'ham Forest,Chelsea,7,Chris Kavanagh
+2025-10-18,Manchester City,Everton,2,Tony Harrington
+2025-10-18,Sunderland,Wolves,0,Robert Jones
+2025-10-19,Tottenham,Aston Villa,2,Simon Hooper
+2025-10-19,Liverpool,Manchester Utd,2,Michael Oliver
+2025-10-20,West Ham,Brentford,2,Andy Madley
+2025-10-24,Leeds United,West Ham,6,Stuart Attwell
+2025-10-25,Brentford,Liverpool,5,Simon Hooper
+2025-10-25,Manchester Utd,Brighton,4,Anthony Taylor
+2025-10-25,Chelsea,Sunderland,2,Andy Madley
+2025-10-25,Newcastle Utd,Fulham,2,Peter Bankes
+2025-10-26,Arsenal,Crystal Palace,0,Thomas Bramall
+2025-10-26,Aston Villa,Manchester City,5,Michael Oliver
+2025-10-26,Bournemouth,Nott'ham Forest,4,Samuel Barrott
+2025-10-26,Wolves,Burnley,1,Tony Harrington
+2025-10-26,Everton,Tottenham,2,Craig Pawson
+2025-11-01,Burnley,Arsenal,3,Chris Kavanagh
+2025-11-01,Liverpool,Aston Villa,5,Stuart Attwell
+2025-11-01,Crystal Palace,Brentford,3,Peter Bankes
+2025-11-01,Brighton,Leeds United,1,Michael Oliver
+2025-11-01,Tottenham,Chelsea,6,Jarred Gillett
+2025-11-01,Fulham,Wolves,5,John Brooks
+2025-11-01,Nott'ham Forest,Manchester Utd,2,Darren England
+2025-11-02,Manchester City,Bournemouth,4,Anthony Taylor
+2025-11-02,West Ham,Newcastle Utd,3,Robert Jones
+2025-11-03,Sunderland,Everton,5,Thomas Bramall
+2025-11-08,Sunderland,Arsenal,3,Craig Pawson
+2025-11-08,West Ham,Burnley,4,Michael Salisbury
+2025-11-08,Chelsea,Wolves,3,Andrew Kitchen
+2025-11-08,Everton,Fulham,4,Andy Madley
+2025-11-08,Tottenham,Manchester Utd,6,Samuel Barrott
+2025-11-09,Aston Villa,Bournemouth,4,John Brooks
+2025-11-09,Brentford,Newcastle Utd,6,Stuart Attwell
+2025-11-09,Crystal Palace,Brighton,5,Tim Robinson
+2025-11-09,Nott'ham Forest,Leeds United,3,Jarred Gillett
+2025-11-09,Manchester City,Liverpool,6,Chris Kavanagh
+2025-11-22,Bournemouth,West Ham,5,Thomas Bramall
+2025-11-22,Brighton,Brentford,6,Chris Kavanagh
+2025-11-22,Burnley,Chelsea,5,Peter Bankes
+2025-11-22,Wolves,Crystal Palace,5,Anthony Taylor
+2025-11-22,Fulham,Sunderland,6,Darren England
+2025-11-22,Liverpool,Nott'ham Forest,2,Andy Madley
+2025-11-22,Newcastle Utd,Manchester City,4,Samuel Barrott
+2025-11-23,Arsenal,Tottenham,4,Michael Oliver
+2025-11-23,Leeds United,Aston Villa,6,Robert Jones
+2025-11-24,Manchester Utd,Everton,3,Tony Harrington
+2025-11-29,Sunderland,Bournemouth,11,Tim Robinson
+2025-11-29,Brentford,Burnley,2,Samuel Barrott
+2025-11-29,Everton,Newcastle Utd,0,Craig Pawson
+2025-11-29,Tottenham,Fulham,5,Stuart Attwell
+2025-11-29,Manchester City,Leeds United,5,Peter Bankes
+2025-11-30,Chelsea,Arsenal,8,Anthony Taylor
+2025-11-30,Aston Villa,Wolves,4,Chris Kavanagh
+2025-11-30,Nott'ham Forest,Brighton,1,Michael Oliver
+2025-11-30,Crystal Palace,Manchester Utd,5,Robert Jones
+2025-11-30,West Ham,Liverpool,4,Darren England
+2025-12-02,Bournemouth,Everton,6,Michael Salisbury
+2025-12-02,Fulham,Manchester City,1,Craig Pawson
+2025-12-02,Newcastle Utd,Tottenham,3,Thomas Bramall
+2025-12-03,Arsenal,Brentford,1,Tony Harrington
+2025-12-03,Brighton,Aston Villa,4,Andy Madley
+2025-12-03,Burnley,Crystal Palace,0,Thomas Kirk
+2025-12-03,Leeds United,Chelsea,2,Darren England
+2025-12-03,Liverpool,Sunderland,2,Stuart Attwell
+2025-12-03,Wolves,Nott'ham Forest,4,Tim Robinson
+2025-12-04,Manchester Utd,West Ham,4,Andrew Kitchen
+2025-12-06,Aston Villa,Arsenal,2,Peter Bankes
+2025-12-06,Bournemouth,Chelsea,2,Michael Oliver
+2025-12-06,Tottenham,Brentford,7,Robert Jones
+2025-12-06,Newcastle Utd,Burnley,5,Stuart Attwell
+2025-12-06,Everton,Nott'ham Forest,7,Chris Kavanagh
+2025-12-06,Leeds United,Liverpool,6,Anthony Taylor
+2025-12-06,Manchester City,Sunderland,2,Andy Madley
+2025-12-07,Brighton,West Ham,4,Simon Hooper
+2025-12-07,Fulham,Crystal Palace,0,Samuel Barrott
+2025-12-08,Wolves,Manchester Utd,5,Michael Salisbury
+2025-12-13,Arsenal,Wolves,4,Robert Jones
+2025-12-13,Liverpool,Brighton,3,Craig Pawson
+2025-12-13,Burnley,Fulham,3,Michael Oliver
+2025-12-13,Chelsea,Everton,1,Thomas Bramall
+2025-12-14,West Ham,Aston Villa,3,Anthony Taylor
+2025-12-14,Brentford,Leeds United,0,John Brooks
+2025-12-14,Crystal Palace,Manchester City,2,Darren England
+2025-12-14,Sunderland,Newcastle Utd,9,Peter Bankes
+2025-12-14,Nott'ham Forest,Tottenham,4,Samuel Barrott
+2025-12-15,Manchester Utd,Bournemouth,5,Simon Hooper
+2025-12-20,Everton,Arsenal,4,Samuel Barrott
+2025-12-20,Bournemouth,Burnley,2,Chris Kavanagh
+2025-12-20,Wolves,Brentford,6,Matt Donohue
+2025-12-20,Brighton,Sunderland,4,Darren England
+2025-12-20,Newcastle Utd,Chelsea,9,Andy Madley
+2025-12-20,Leeds United,Crystal Palace,4,Thomas Bramall
+2025-12-20,Tottenham,Liverpool,10,John Brooks
+2025-12-20,Manchester City,West Ham,2,Paul Tierney
+2025-12-21,Aston Villa,Manchester Utd,3,Michael Oliver
+2025-12-22,Fulham,Nott'ham Forest,9,Anthony Taylor
+2025-12-26,Manchester Utd,Newcastle Utd,3,Anthony Taylor
+2025-12-27,Arsenal,Brighton,5,John Brooks
+2025-12-27,Chelsea,Aston Villa,8,Stuart Attwell
+2025-12-27,Brentford,Bournemouth,4,Peter Bankes
+2025-12-27,Burnley,Everton,2,Craig Pawson
+2025-12-27,West Ham,Fulham,4,Chris Kavanagh
+2025-12-27,Liverpool,Wolves,1,Simon Hooper
+2025-12-27,Nott'ham Forest,Manchester City,3,Robert Jones
+2025-12-28,Crystal Palace,Tottenham,5,Jarred Gillett
+2025-12-28,Sunderland,Leeds United,1,Tony Harrington
+2025-12-30,Arsenal,Aston Villa,5,Darren England
+2025-12-30,Chelsea,Bournemouth,2,Samuel Barrott
+2025-12-30,West Ham,Brighton,8,Michael Salisbury
+2025-12-30,Burnley,Newcastle Utd,3,Robert Jones
+2025-12-30,Nott'ham Forest,Everton,1,Michael Oliver
+2025-12-30,Manchester Utd,Wolves,2,Thomas Bramall
+2026-01-01,Brentford,Tottenham,3,Andy Madley
+2026-01-01,Crystal Palace,Fulham,5,Tony Harrington
+2026-01-01,Liverpool,Leeds United,2,Chris Kavanagh
+2026-01-01,Sunderland,Manchester City,2,Jarred Gillett
+2026-01-03,Bournemouth,Arsenal,4,Chris Kavanagh
+2026-01-03,Aston Villa,Nott'ham Forest,3,Simon Hooper
+2026-01-03,Brighton,Burnley,4,Tim Robinson
+2026-01-03,Wolves,West Ham,1,Peter Bankes
+2026-01-04,Everton,Brentford,2,Anthony Taylor
+2026-01-04,Manchester City,Chelsea,6,Michael Oliver
+2026-01-04,Newcastle Utd,Crystal Palace,4,John Brooks
+2026-01-04,Fulham,Liverpool,2,Craig Pawson
+2026-01-04,Leeds United,Manchester Utd,1,Jarred Gillett
+2026-01-04,Tottenham,Sunderland,5,Stuart Attwell
+2026-01-06,West Ham,Nott'ham Forest,3,Tony Harrington
+2026-01-07,Crystal Palace,Aston Villa,2,Andy Madley
+2026-01-07,Bournemouth,Tottenham,6,Darren England
+2026-01-07,Brentford,Sunderland,3,Matt Donohue
+2026-01-07,Manchester City,Brighton,7,Thomas Bramall
+2026-01-07,Burnley,Manchester Utd,2,Stuart Attwell
+2026-01-07,Fulham,Chelsea,7,Peter Bankes
+2026-01-07,Everton,Wolves,8,Thomas Kirk
+2026-01-07,Newcastle Utd,Leeds United,5,Michael Salisbury
+2026-01-08,Arsenal,Liverpool,4,Anthony Taylor
