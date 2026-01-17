@@ -31,47 +31,17 @@ BET_LOG_FILE = "bet_log.json"
 TIME_DECAY_HALF_LIFE = 30
 OVERDISPERSION_THRESHOLD = 1.25  # Switch to NB above this
 
-# --- MANUAL REFEREE OVERRIDES ---
-MANUAL_REF_OVERRIDES = {
-    "Manchester Utd vs Manchester City": "Anthony Taylor",
-    "Nottingham Forest vs Arsenal": "Michael Oliver",
-    "Nott'ham Forest vs Arsenal": "Michael Oliver",
-    "Tottenham Hotspur vs West Ham United": "Jarred Gillett",
-    "Wolverhampton Wanderers vs Newcastle United": "Samuel Barrott",
-    "Wolves vs Newcastle Utd": "Samuel Barrott",
-    "Wolves vs Newcastle United": "Samuel Barrott",
-    "Chelsea vs Brentford": "John Brooks",
-    "Sunderland vs Crystal Palace": "Robert Jones",
-    "Brighton vs Bournemouth": "Andy Madley",
-    "Brighton and Hove Albion vs Bournemouth": "Andy Madley",
-    "Aston Villa vs Everton": "Peter Bankes",
-    "Leeds United vs Fulham": "Darren England",
-    "Liverpool vs Burnley": "Stuart Attwell",
-}
+# --- NOTE: No more hardcoded referee overrides or manual odds ---
+# All referee stats and odds should be entered via the web frontend (app.py)
+# This file is now only used for batch processing and model training
 
-# --- MANUAL ODDS (for edge calculation AND strength proxy) ---
-# Format: match_key -> {o35: odds, o45: odds, home_win: odds, draw: odds, away_win: odds}
-MANUAL_ODDS = {
-    "Manchester Utd vs Manchester City": {"o35": 1.72, "o45": 2.40, "u35": 2.10, "u45": 1.55, "home": 3.10, "draw": 3.40, "away": 2.30},
-    "Chelsea vs Brentford": {"o35": 1.65, "o45": 2.20, "u35": 2.20, "u45": 1.65, "home": 1.55, "draw": 4.20, "away": 5.50},
-    "Nottingham Forest vs Arsenal": {"o35": 1.80, "o45": 2.50, "u35": 2.00, "u45": 1.55, "home": 5.50, "draw": 4.00, "away": 1.60},
-    "Brighton vs Bournemouth": {"o35": 1.70, "o45": 2.30, "u35": 2.15, "u45": 1.60, "home": 1.85, "draw": 3.60, "away": 4.20},
-    "Tottenham Hotspur vs West Ham United": {"o35": 1.75, "o45": 2.35, "u35": 2.05, "u45": 1.58, "home": 1.65, "draw": 4.00, "away": 5.00},
-    "Liverpool vs Burnley": {"home": 1.20, "draw": 7.00, "away": 13.00},
-    "Aston Villa vs Everton": {"home": 1.50, "draw": 4.50, "away": 6.00},
-    "Leeds United vs Fulham": {"home": 2.20, "draw": 3.50, "away": 3.20},
-    "Wolves vs Newcastle United": {"home": 3.00, "draw": 3.40, "away": 2.40},
-    "Sunderland vs Crystal Palace": {"home": 2.50, "draw": 3.30, "away": 2.90},
-}
-
-# --- REFEREE FALLBACK (only used if no historical data) ---
-REFEREE_FALLBACK = {
-    'Tim Robinson': 1.35, 'Michael Salisbury': 1.27, 'Stuart Attwell': 1.21,
-    'John Brooks': 1.15, 'Peter Bankes': 1.11, 'Simon Hooper': 1.10,
-    'Andy Madley': 1.08, 'Samuel Barrott': 1.04, 'Chris Kavanagh': 1.01,
-    'Anthony Taylor': 0.99, 'Darren England': 0.98, 'Paul Tierney': 0.96,
-    'Robert Jones': 0.93, 'Jarred Gillett': 0.87, 'Tony Harrington': 0.78,
-    'Michael Oliver': 0.66, 'Craig Pawson': 0.50
+# --- REFEREE STRICTNESS ---
+# Now computed dynamically from historical data in compute_lagged_referee_stats()
+# These values are NO LONGER USED - kept for reference only
+REFEREE_FALLBACK_DEPRECATED = {
+    # DEPRECATED: These were outdated estimates
+    # Actual values should come from match_cache_v3.csv
+    # Use app.py frontend for accurate predictions
 }
 
 # --- STRUCTURAL DEFINITIONS ---
@@ -334,8 +304,8 @@ def compute_lagged_referee_stats(df):
             league_avg = league_cumsum / league_count if league_count > 0 else 3.84
             lagged_strictness.append(ref_avg / league_avg if league_avg > 0 else 1.0)
         else:
-            # Not enough prior data, use fallback
-            lagged_strictness.append(REFEREE_FALLBACK.get(ref, 1.0))
+            # Not enough prior data, use league average (no more hardcoded fallbacks)
+            lagged_strictness.append(1.0)
         
         # UPDATE cumulative stats AFTER computing lagged value
         if pd.notna(ref):
@@ -606,13 +576,12 @@ def predict_match(bundle, home, away, referee, book_odds=None):
     home_rate = home_rates.loc[home, 'home_own_cards_avg'] if home in home_rates.index else bundle['home_cards_avg']
     away_rate = away_rates.loc[away, 'away_own_cards_avg'] if away in away_rates.index else bundle['away_cards_avg']
     
-    # Referee strictness (from accumulated stats)
-    if referee and referee in ref_stats:
+    # Referee strictness (from accumulated stats - no more hardcoded fallbacks)
+    if referee and referee in ref_stats and ref_stats[referee]['count'] >= 2:
         ref_avg = ref_stats[referee]['sum'] / ref_stats[referee]['count']
         ref_strict = ref_avg / league_avg
-    elif referee:
-        ref_strict = REFEREE_FALLBACK.get(referee, 1.0)
     else:
+        # Unknown referee or insufficient data - use league average
         ref_strict = 1.0
     
     # PRODUCTION FIX #2: Odds-implied strength (superior to goal-based)
@@ -770,19 +739,16 @@ def run_system():
         away = row['away_team']
         match_key = f"{home} vs {away}"
         
-        # Get referee
-        if match_key in MANUAL_REF_OVERRIDES:
-            ref = MANUAL_REF_OVERRIDES[match_key]
-            ref_tag = "📋"
-        elif pd.notna(row.get('referee')):
+        # Get referee from schedule (no more manual overrides - use frontend for that)
+        if pd.notna(row.get('referee')):
             ref = row['referee']
             ref_tag = ""
         else:
             ref = None
-            ref_tag = ""
+            ref_tag = "⚠️"
         
-        # Get book odds
-        book_odds = MANUAL_ODDS.get(match_key)
+        # No more manual odds - use frontend for entering live odds
+        book_odds = None
         
         # Predict
         pred = predict_match(bundle, home, away, ref, book_odds)

@@ -1,7 +1,10 @@
 """
-Football Edge System - Web Interface
-Run locally with: python3 app.py
-Then open: http://localhost:5000
+Football Edge System - Web Interface V4
+========================================
+Dynamic calculation from frontend inputs:
+- Referee strictness computed from ACTUAL historical data
+- All odds (1X2 + card markets) used from frontend input
+- No hardcoded overrides - everything calculated fresh
 """
 
 from flask import Flask, render_template, request, jsonify
@@ -10,7 +13,6 @@ import numpy as np
 import statsmodels.api as sm
 from scipy.stats import poisson
 from scipy.stats import nbinom as scipy_nbinom
-import soccerdata as sd
 import os
 import json
 from datetime import datetime
@@ -28,15 +30,8 @@ BET_LOG_FILE = "bet_log.json"
 TIME_DECAY_HALF_LIFE = 30
 OVERDISPERSION_THRESHOLD = 1.25
 
-# --- REFEREE FALLBACK ---
-REFEREE_FALLBACK = {
-    'Tim Robinson': 1.35, 'Michael Salisbury': 1.27, 'Stuart Attwell': 1.21,
-    'John Brooks': 1.15, 'Peter Bankes': 1.11, 'Simon Hooper': 1.10,
-    'Andy Madley': 1.08, 'Samuel Barrott': 1.04, 'Chris Kavanagh': 1.01,
-    'Anthony Taylor': 0.99, 'Darren England': 0.98, 'Paul Tierney': 0.96,
-    'Robert Jones': 0.93, 'Jarred Gillett': 0.87, 'Tony Harrington': 0.78,
-    'Michael Oliver': 0.66, 'Craig Pawson': 0.50
-}
+# --- NO MORE HARDCODED FALLBACKS ---
+# Referee strictness is now computed dynamically from historical data
 
 MAJOR_DERBIES = [
     ("Manchester Utd", "Manchester City"),
@@ -47,6 +42,9 @@ MAJOR_DERBIES = [
 
 TOP_6 = ["Arsenal", "Chelsea", "Liverpool", "Manchester City", "Manchester Utd",
          "Tottenham", "Tottenham Hotspur"]
+
+# Global storage for computed referee stats (populated when data is loaded)
+COMPUTED_REF_STATS = {}
 
 # --- TEAM NAME NORMALIZATION (Issue 2 fix) ---
 TEAM_ALIASES = {
@@ -127,6 +125,65 @@ def compute_time_decayed_rate(values, dates, reference_date, half_life_days=TIME
     return weighted_sum / total_weight if total_weight > 0 else np.mean(values)
 
 
+def compute_referee_stats(df):
+    """
+    Compute comprehensive referee statistics from historical data.
+    
+    Returns dict with:
+    - simple_avg: Plain average cards per game
+    - time_decayed_avg: Exponentially weighted average (recent matches matter more)
+    - strictness: Ratio vs league average (>1 = strict, <1 = lenient)
+    - games: Number of games officiated
+    - last_5_avg: Average of last 5 games
+    """
+    global COMPUTED_REF_STATS
+    
+    league_avg = df['total_cards'].mean()
+    reference_date = df['date'].max()
+    
+    ref_stats = {}
+    
+    for ref in df['referee'].dropna().unique():
+        ref_matches = df[df['referee'] == ref].sort_values('date')
+        
+        if len(ref_matches) == 0:
+            continue
+        
+        cards = ref_matches['total_cards'].values
+        dates = ref_matches['date']
+        
+        # Simple average
+        simple_avg = cards.mean()
+        
+        # Time-decayed average
+        time_decayed = compute_time_decayed_rate(cards, dates, reference_date)
+        
+        # Last 5 games average (if available)
+        last_5 = ref_matches.tail(5)
+        last_5_avg = last_5['total_cards'].mean() if len(last_5) > 0 else simple_avg
+        
+        # Strictness ratio vs league average
+        strictness = time_decayed / league_avg if league_avg > 0 else 1.0
+        
+        # Standard deviation
+        std_dev = cards.std() if len(cards) > 1 else 0
+        
+        ref_stats[ref] = {
+            'simple_avg': round(simple_avg, 2),
+            'time_decayed_avg': round(time_decayed, 2),
+            'strictness': round(strictness, 3),
+            'games': len(ref_matches),
+            'last_5_avg': round(last_5_avg, 2),
+            'std_dev': round(std_dev, 2),
+            'min_cards': int(cards.min()),
+            'max_cards': int(cards.max()),
+            'last_match_date': ref_matches['date'].max().strftime('%Y-%m-%d'),
+        }
+    
+    COMPUTED_REF_STATS = ref_stats
+    return ref_stats
+
+
 def load_and_train_model():
     """Load data and train the model."""
     global MODEL_BUNDLE
@@ -139,6 +196,7 @@ def load_and_train_model():
     
     # Compute team stats with time decay
     reference_date = df['date'].max()
+    league_avg = df['total_cards'].mean()
     
     home_rates_dict = {}
     away_rates_dict = {}
@@ -163,13 +221,16 @@ def load_and_train_model():
             )
             away_rates_dict[team] = decayed_avg
     
-    # Compute lagged referee stats
+    # COMPUTE DYNAMIC REFEREE STATS (the key fix!)
+    print("   > Computing dynamic referee stats from historical data...")
+    ref_stats_full = compute_referee_stats(df)
+    
+    # Compute lagged referee stats for model training
     df_sorted = df.sort_values('date').reset_index(drop=True)
     ref_cumulative = {}
     lagged_strictness = []
     league_cumsum = 0
     league_count = 0
-    league_avg = df['total_cards'].mean()
     
     for idx, row in df_sorted.iterrows():
         ref = row['referee']
@@ -181,7 +242,8 @@ def load_and_train_model():
             l_avg = league_cumsum / league_count if league_count > 0 else league_avg
             lagged_strictness.append(ref_avg / l_avg if l_avg > 0 else 1.0)
         else:
-            lagged_strictness.append(REFEREE_FALLBACK.get(ref, 1.0))
+            # For new referees, use 1.0 (league average) instead of hardcoded fallback
+            lagged_strictness.append(1.0)
         
         if pd.notna(ref):
             if ref not in ref_cumulative:
@@ -264,20 +326,22 @@ def load_and_train_model():
         'home_rates': home_rates_dict,
         'away_rates': away_rates_dict,
         'ref_stats': ref_cumulative,
+        'ref_stats_full': ref_stats_full,  # Full computed stats for predictions
         'strength': strength,
         'league_avg': league_avg,
         'home_cards_avg': df['home_cards'].mean(),
         'away_cards_avg': df['away_cards'].mean(),
         'dispersion': dispersion,
         'teams': sorted(list(set(df['home_team'].unique()) | set(df['away_team'].unique()))),
-        'referees': sorted(list(REFEREE_FALLBACK.keys())),
+        # Use ACTUAL referees from data, not hardcoded list
+        'referees': sorted(list(ref_stats_full.keys())),
     }
     
     return MODEL_BUNDLE, None
 
 
 def predict_single_match(home, away, referee, odds):
-    """Predict a single match."""
+    """Predict a single match using dynamic referee stats from historical data."""
     if MODEL_BUNDLE is None:
         return None, "Model not loaded"
     
@@ -286,21 +350,34 @@ def predict_single_match(home, away, referee, odds):
     alpha = MODEL_BUNDLE['alpha']
     home_rates = MODEL_BUNDLE['home_rates']
     away_rates = MODEL_BUNDLE['away_rates']
-    ref_stats = MODEL_BUNDLE['ref_stats']
+    ref_stats_full = MODEL_BUNDLE['ref_stats_full']  # Use computed stats
     strength = MODEL_BUNDLE['strength']
     league_avg = MODEL_BUNDLE['league_avg']
     
-    # Team rates
+    # Team rates (time-decayed)
     home_rate = home_rates.get(home, MODEL_BUNDLE['home_cards_avg'])
     away_rate = away_rates.get(away, MODEL_BUNDLE['away_cards_avg'])
     
-    # Referee (Issue 1 fix: use ONLY fallback to prevent leakage)
-    # ref_stats contains future information relative to prediction time
-    # Safe: use precomputed fallback strictness only
-    if referee:
-        ref_strict = REFEREE_FALLBACK.get(referee, 1.0)
-    else:
+    # DYNAMIC REFEREE STRICTNESS from actual historical data
+    ref_info = None
+    if referee and referee in ref_stats_full:
+        ref_info = ref_stats_full[referee]
+        # Use time-decayed strictness for predictions (most accurate)
+        ref_strict = ref_info['strictness']
+    elif referee:
+        # Unknown referee - use league average
         ref_strict = 1.0
+        ref_info = {
+            'simple_avg': league_avg,
+            'time_decayed_avg': league_avg,
+            'strictness': 1.0,
+            'games': 0,
+            'last_5_avg': league_avg,
+        }
+    else:
+        # No referee selected - use league average
+        ref_strict = 1.0
+        ref_info = None
     
     # Strength (prefer odds-implied)
     odds_strength = odds_to_implied_strength(odds) if odds else None
@@ -408,15 +485,23 @@ def predict_single_match(home, away, referee, odds):
             'strength_diff': round(str_diff, 2),
             'is_derby': is_derby,
             'is_top6': is_top6,
-        }
+        },
+        # Include full referee analysis
+        'referee_analysis': ref_info,
     }, None
 
 
-def log_bet(match, line, model_prob, book_odds, edge, lambda_val):
-    """Log a bet for CLV tracking.
+def log_bet(match, line, model_prob, book_odds, edge, lambda_val, 
+             home_team=None, away_team=None, referee=None, 
+             odds_1x2=None, odds_cards=None, features=None, referee_analysis=None):
+    """Log a bet for CLV tracking with full input details.
     
-    Caveat 1 fix: model_prob stored as raw probability (0-1), not percentage.
-    If frontend sends percentage, convert it here.
+    Now stores:
+    - Teams (home, away)
+    - Referee and their stats
+    - All 1X2 odds
+    - All card market odds
+    - Model features used
     """
     # Ensure raw probability (0-1) not percentage
     prob_value = float(model_prob) if model_prob else 0
@@ -427,13 +512,21 @@ def log_bet(match, line, model_prob, book_odds, edge, lambda_val):
         'timestamp': datetime.now().isoformat(),
         'match': match,
         'line': line,
-        'model_prob_raw': round(prob_value, 4),  # Store as 0-1
-        'model_prob_pct': round(prob_value * 100, 1),  # Also store for display
+        'model_prob_raw': round(prob_value, 4),
+        'model_prob_pct': round(prob_value * 100, 1),
         'book_odds': book_odds,
         'edge': edge,
         'lambda': lambda_val,
         'closing_odds': None,
         'result': None,
+        # NEW: Store full input details
+        'home_team': home_team,
+        'away_team': away_team,
+        'referee': referee,
+        'odds_1x2': odds_1x2,  # {home, draw, away}
+        'odds_cards': odds_cards,  # {o15, u15, o25, u25, ...}
+        'features': features,  # Model features used
+        'referee_analysis': referee_analysis,  # Referee stats at time of bet
     }
     
     if os.path.exists(BET_LOG_FILE):
@@ -473,6 +566,73 @@ def api_init():
     })
 
 
+@app.route('/api/referee/<referee_name>', methods=['GET'])
+def api_referee_stats(referee_name):
+    """Get detailed stats for a specific referee."""
+    if MODEL_BUNDLE is None:
+        return jsonify({'error': 'Model not loaded'}), 500
+    
+    ref_stats = MODEL_BUNDLE.get('ref_stats_full', {})
+    
+    if referee_name not in ref_stats:
+        return jsonify({
+            'found': False,
+            'name': referee_name,
+            'message': 'No historical data for this referee'
+        })
+    
+    stats = ref_stats[referee_name]
+    league_avg = MODEL_BUNDLE['league_avg']
+    
+    return jsonify({
+        'found': True,
+        'name': referee_name,
+        'simple_avg': stats['simple_avg'],
+        'time_decayed_avg': stats['time_decayed_avg'],
+        'strictness': stats['strictness'],
+        'games': stats['games'],
+        'last_5_avg': stats['last_5_avg'],
+        'std_dev': stats['std_dev'],
+        'min_cards': stats['min_cards'],
+        'max_cards': stats['max_cards'],
+        'last_match_date': stats['last_match_date'],
+        'league_avg': round(league_avg, 2),
+        'interpretation': 'STRICT' if stats['strictness'] > 1.1 else 'LENIENT' if stats['strictness'] < 0.9 else 'AVERAGE',
+    })
+
+
+@app.route('/api/team/<team_name>', methods=['GET'])
+def api_team_stats(team_name):
+    """Get detailed stats for a specific team."""
+    if MODEL_BUNDLE is None:
+        return jsonify({'error': 'Model not loaded'}), 500
+    
+    # Normalize team name
+    team_name = normalize_team_name(team_name)
+    
+    home_rates = MODEL_BUNDLE.get('home_rates', {})
+    away_rates = MODEL_BUNDLE.get('away_rates', {})
+    
+    home_rate = home_rates.get(team_name)
+    away_rate = away_rates.get(team_name)
+    
+    if home_rate is None and away_rate is None:
+        return jsonify({
+            'found': False,
+            'name': team_name,
+            'message': 'No historical data for this team'
+        })
+    
+    return jsonify({
+        'found': True,
+        'name': team_name,
+        'home_card_rate': round(home_rate, 2) if home_rate else None,
+        'away_card_rate': round(away_rate, 2) if away_rate else None,
+        'avg_home_cards': round(MODEL_BUNDLE['home_cards_avg'], 2),
+        'avg_away_cards': round(MODEL_BUNDLE['away_cards_avg'], 2),
+    })
+
+
 @app.route('/api/predict', methods=['POST'])
 def api_predict():
     """Predict a single match."""
@@ -509,8 +669,23 @@ def api_predict():
 
 @app.route('/api/log_bet', methods=['POST'])
 def api_log_bet():
-    """Log a bet for CLV tracking."""
+    """Log a bet for CLV tracking with full input details."""
     data = request.json
+    
+    # Extract 1X2 odds
+    odds_1x2 = {}
+    if data.get('odds'):
+        for key in ['home', 'draw', 'away']:
+            if key in data['odds']:
+                odds_1x2[key] = data['odds'][key]
+    
+    # Extract card odds
+    odds_cards = {}
+    if data.get('odds'):
+        card_keys = ['o15', 'u15', 'o25', 'u25', 'o35', 'u35', 'o45', 'u45', 'o55', 'u55', 'o65', 'u65']
+        for key in card_keys:
+            if key in data['odds']:
+                odds_cards[key] = data['odds'][key]
     
     bet = log_bet(
         match=data.get('match'),
@@ -519,6 +694,14 @@ def api_log_bet():
         book_odds=data.get('book_odds'),
         edge=data.get('edge'),
         lambda_val=data.get('lambda'),
+        # NEW: Full input details
+        home_team=data.get('home_team'),
+        away_team=data.get('away_team'),
+        referee=data.get('referee'),
+        odds_1x2=odds_1x2 if odds_1x2 else None,
+        odds_cards=odds_cards if odds_cards else None,
+        features=data.get('features'),
+        referee_analysis=data.get('referee_analysis'),
     )
     
     return jsonify({'success': True, 'bet': bet})

@@ -260,6 +260,133 @@
             cursor: pointer;
         }
 
+        /* Searchable Dropdown */
+        .searchable-select {
+            position: relative;
+        }
+
+        .searchable-select .search-input {
+            width: 100%;
+            padding: 0.625rem 2.5rem 0.625rem 0.75rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: var(--text);
+            transition: border-color 0.15s, box-shadow 0.15s;
+            cursor: pointer;
+        }
+
+        .searchable-select .search-input:focus {
+            outline: none;
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            cursor: text;
+        }
+
+        .searchable-select .search-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .searchable-select .dropdown-arrow {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: var(--text-muted);
+            transition: transform 0.2s;
+        }
+
+        .searchable-select.open .dropdown-arrow {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .searchable-select .dropdown-list {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            max-height: 250px;
+            overflow-y: auto;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .searchable-select.open .dropdown-list {
+            display: block;
+        }
+
+        .searchable-select .dropdown-item {
+            padding: 0.625rem 0.75rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.1s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .searchable-select .dropdown-item:hover,
+        .searchable-select .dropdown-item.highlighted {
+            background: var(--bg-hover);
+        }
+
+        .searchable-select .dropdown-item.selected {
+            background: var(--accent-light);
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .searchable-select .dropdown-item .item-label {
+            flex: 1;
+        }
+
+        .searchable-select .dropdown-item .item-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-left: 0.5rem;
+        }
+
+        .searchable-select .dropdown-item.selected .item-meta {
+            color: var(--accent);
+            opacity: 0.7;
+        }
+
+        .searchable-select .no-results {
+            padding: 0.75rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .searchable-select .clear-btn {
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.25rem;
+            display: none;
+            font-size: 0.85rem;
+        }
+
+        .searchable-select .clear-btn:hover {
+            color: var(--danger);
+        }
+
+        .searchable-select.has-value .clear-btn {
+            display: block;
+        }
+
         /* Section Dividers */
         .section-label {
             display: flex;
@@ -271,6 +398,74 @@
             text-transform: uppercase;
             letter-spacing: 0.025em;
             margin: 1.25rem 0 0.75rem;
+        }
+
+        /* Referee Stats Box */
+        .referee-stats-box {
+            margin-top: 0.5rem;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.8rem;
+        }
+
+        .referee-stats-box .ref-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .referee-stats-box .ref-name {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .referee-stats-box .ref-badge {
+            padding: 0.2rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .referee-stats-box .ref-badge.strict {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+        .referee-stats-box .ref-badge.lenient {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .referee-stats-box .ref-badge.average {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+
+        .referee-stats-box .ref-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            text-align: center;
+        }
+
+        .referee-stats-box .ref-stat {
+            padding: 0.25rem;
+        }
+
+        .referee-stats-box .ref-stat-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .referee-stats-box .ref-stat-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
         }
 
         /* Odds Grid */
@@ -493,6 +688,84 @@
             font-size: 0.85rem;
         }
 
+        .best-available-section {
+            background: var(--bg);
+            border: 1px dashed var(--border);
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .best-available-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .best-available-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .best-available-line {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .best-available-edge {
+            font-size: 0.85rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+
+        .best-available-edge.negative {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+        .best-available-edge.positive {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .bet-selector {
+            padding: 0.4rem 0.6rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            background: var(--bg);
+            color: var(--text);
+            cursor: pointer;
+            min-width: 120px;
+        }
+
+        .bet-selector:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .best-indicator {
+            margin-top: 0.5rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+        }
+
+        .best-indicator-icon {
+            color: var(--warning);
+        }
+
         /* Features Grid */
         .features-grid {
             display: grid;
@@ -711,6 +984,660 @@
             margin-bottom: 0.75rem;
         }
 
+        /* Bet Details Modal Styles */
+        .details-section {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .details-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .details-section-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .details-grid.three {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .details-grid.four {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .details-item {
+            background: var(--bg-secondary);
+            padding: 0.5rem;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .details-item-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.125rem;
+        }
+
+        .details-item-value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .details-item-value.positive {
+            color: var(--success);
+        }
+
+        .details-item-value.negative {
+            color: var(--danger);
+        }
+
+        .details-match-header {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .details-match-header .match-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .details-match-header .match-date {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .details-match-header .match-referee {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .details-match-header .ref-badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 0.25rem;
+        }
+
+        .details-match-header .ref-badge.strict {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+        .details-match-header .ref-badge.lenient {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .details-match-header .ref-badge.average {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+
+        /* ============================================
+           EXPLAIN TAB - Educational Styles
+           ============================================ */
+        
+        .explain-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .explain-hero {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--accent-light) 0%, #dbeafe 100%);
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--accent);
+        }
+
+        .explain-hero h2 {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .explain-hero p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .explain-no-data {
+            text-align: center;
+            padding: 3rem;
+            background: var(--bg);
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+        }
+
+        .explain-no-data-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Step Cards */
+        .step-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .step-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .step-body {
+            padding: 1.5rem;
+        }
+
+        .step-explanation {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .step-explanation strong {
+            color: var(--text);
+        }
+
+        /* Visualization Containers */
+        .viz-container {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .viz-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            text-align: center;
+        }
+
+        /* Bar Chart */
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .bar-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .bar-label {
+            width: 120px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .bar-track {
+            flex: 1;
+            height: 28px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+            transition: width 0.5s ease;
+        }
+
+        .bar-fill.blue { background: var(--accent); }
+        .bar-fill.green { background: var(--success); }
+        .bar-fill.red { background: var(--danger); }
+        .bar-fill.orange { background: var(--warning); }
+        .bar-fill.purple { background: #8b5cf6; }
+
+        .bar-avg-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--danger);
+            z-index: 1;
+        }
+
+        /* Gauge/Meter */
+        .gauge-container {
+            display: flex;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .gauge {
+            position: relative;
+            width: 200px;
+            height: 100px;
+            overflow: hidden;
+        }
+
+        .gauge-bg {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--success) 0deg 60deg,
+                var(--warning) 60deg 120deg,
+                var(--danger) 120deg 180deg,
+                transparent 180deg 360deg
+            );
+            clip-path: inset(50% 0 0 0);
+        }
+
+        .gauge-mask {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            background: var(--bg-secondary);
+            border-radius: 50%;
+            top: 30px;
+            left: 30px;
+        }
+
+        .gauge-needle {
+            position: absolute;
+            width: 4px;
+            height: 80px;
+            background: var(--text);
+            bottom: 0;
+            left: 98px;
+            transform-origin: bottom center;
+            border-radius: 2px;
+            transition: transform 0.5s ease;
+        }
+
+        .gauge-value {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .gauge-labels {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .gauge-labels span {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* Formula Box */
+        .formula-box {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.25rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .formula-box .var {
+            color: #60a5fa;
+        }
+
+        .formula-box .num {
+            color: #34d399;
+        }
+
+        .formula-box .op {
+            color: #f472b6;
+        }
+
+        .formula-box .result {
+            color: #fbbf24;
+            font-weight: 600;
+        }
+
+        /* Calculation Steps */
+        .calc-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.85rem;
+        }
+
+        .calc-step {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+        }
+
+        .calc-step-num {
+            background: var(--accent);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+        }
+
+        .calc-arrow {
+            color: var(--text-muted);
+        }
+
+        /* Probability Curve */
+        .prob-curve-container {
+            position: relative;
+            height: 150px;
+            margin: 1rem 0;
+        }
+
+        .prob-curve {
+            width: 100%;
+            height: 100%;
+        }
+
+        .prob-bars {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 120px;
+            padding: 0 1rem;
+            gap: 4px;
+        }
+
+        .prob-bar-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .prob-bar {
+            width: 100%;
+            max-width: 40px;
+            background: var(--accent);
+            border-radius: 4px 4px 0 0;
+            transition: height 0.5s ease;
+            position: relative;
+        }
+
+        .prob-bar.highlight {
+            background: var(--success);
+        }
+
+        .prob-bar-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .prob-bar-value {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text);
+            white-space: nowrap;
+        }
+
+        /* Edge Visualization */
+        .edge-viz {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .edge-box {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            min-width: 120px;
+        }
+
+        .edge-box-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .edge-box-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .edge-arrow {
+            font-size: 2rem;
+            color: var(--text-muted);
+        }
+
+        .edge-result {
+            background: var(--success-light);
+            border-color: var(--success);
+        }
+
+        .edge-result .edge-box-value {
+            color: var(--success);
+        }
+
+        /* Glossary */
+        .glossary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .glossary-item {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .glossary-term {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .glossary-term-icon {
+            font-size: 1.25rem;
+        }
+
+        .glossary-def {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .glossary-example {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Flow Diagram */
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            padding: 1rem;
+        }
+
+        .flow-node {
+            background: var(--bg);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .flow-node-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .flow-node-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .flow-connector {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background: linear-gradient(135deg, var(--success-light) 0%, #d1fae5 100%);
+            border: 2px solid var(--success);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .summary-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--success);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .summary-detail {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        /* Collapsible Sections */
+        .collapsible {
+            cursor: pointer;
+        }
+
+        .collapsible .step-header::after {
+            content: '▼';
+            margin-left: auto;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            transition: transform 0.2s;
+        }
+
+        .collapsible.collapsed .step-header::after {
+            transform: rotate(-90deg);
+        }
+
+        .collapsible.collapsed .step-body {
+            display: none;
+        }
+
         /* Footer */
         footer {
             text-align: center;
@@ -736,6 +1663,7 @@
         <div class="tabs">
             <button class="tab active" onclick="switchTab('predict')">🔮 Predict</button>
             <button class="tab" onclick="switchTab('history')">📜 Bet History</button>
+            <button class="tab" onclick="switchTab('explain')">📚 How It Works</button>
         </div>
 
         <!-- Predict Tab -->
@@ -751,30 +1679,43 @@
                         <div class="label-row">
                             <label>Home Team</label>
                         </div>
-                        <select id="homeTeam">
-                            <option value="">Select team...</option>
-                        </select>
+                        <div class="searchable-select" id="homeTeamSelect">
+                            <input type="text" class="search-input" placeholder="Search or select team..." autocomplete="off">
+                            <button type="button" class="clear-btn" title="Clear">✕</button>
+                            <span class="dropdown-arrow">▼</span>
+                            <div class="dropdown-list"></div>
+                            <input type="hidden" id="homeTeam" value="">
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <div class="label-row">
                             <label>Away Team</label>
                         </div>
-                        <select id="awayTeam">
-                            <option value="">Select team...</option>
-                        </select>
+                        <div class="searchable-select" id="awayTeamSelect">
+                            <input type="text" class="search-input" placeholder="Search or select team..." autocomplete="off">
+                            <button type="button" class="clear-btn" title="Clear">✕</button>
+                            <span class="dropdown-arrow">▼</span>
+                            <div class="dropdown-list"></div>
+                            <input type="hidden" id="awayTeam" value="">
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <div class="label-row">
                             <label>Referee</label>
                             <span class="tooltip-icon">?
-                                <span class="tooltip-text">Each referee has a "strictness" rating based on their historical card average. Higher = more cards expected.</span>
+                                <span class="tooltip-text">Referee strictness is computed from ACTUAL historical data. Stats shown below are real averages from this season.</span>
                             </span>
                         </div>
-                        <select id="referee">
-                            <option value="">Select referee (optional)...</option>
-                        </select>
+                        <div class="searchable-select" id="refereeSelect">
+                            <input type="text" class="search-input" placeholder="Search or select referee..." autocomplete="off">
+                            <button type="button" class="clear-btn" title="Clear">✕</button>
+                            <span class="dropdown-arrow">▼</span>
+                            <div class="dropdown-list"></div>
+                            <input type="hidden" id="referee" value="">
+                        </div>
+                        <div id="refereeStats" class="referee-stats-box" style="display: none;"></div>
                     </div>
 
                     <div class="section-label">
@@ -918,6 +1859,20 @@
 
                         <div id="noValue" class="no-value-box" style="display: none;">
                             No value bets identified at current odds
+                            <div id="bestAvailableSection" class="best-available-section" style="display: none; margin-top: 1rem;">
+                                <div class="best-available-label">Choose bet to log anyway:</div>
+                                <div class="best-available-content">
+                                    <select id="betSelector" class="bet-selector" onchange="updateSelectedBetEdge()">
+                                    </select>
+                                    <span id="selectedBetEdge" class="best-available-edge">-</span>
+                                    <button id="logAnyway" class="small secondary" onclick="logSelectedBet()" style="margin-left: 0.75rem;">
+                                        Log for CLV
+                                    </button>
+                                </div>
+                                <div class="best-indicator" id="bestIndicator">
+                                    <span class="best-indicator-icon">⭐</span> Best available is pre-selected
+                                </div>
+                            </div>
                         </div>
 
                         <button id="logBtn" class="full success" onclick="logBet()" style="display: none;">
@@ -927,10 +1882,16 @@
                         <div class="section-label">
                             Model Features
                             <span class="tooltip-icon">?
-                                <span class="tooltip-text">These are the input variables used by the model. <strong>Home/Away Rate</strong> = team's historical card rate. <strong>Ref Strict</strong> = referee's strictness. <strong>Strength Δ</strong> = home advantage differential.</span>
+                                <span class="tooltip-text">These are the input variables used by the model. <strong>Home/Away Rate</strong> = team's historical card rate (time-decayed). <strong>Ref Strict</strong> = referee's strictness from actual data. <strong>Strength Δ</strong> = from odds or goal differential.</span>
                             </span>
                         </div>
                         <div class="features-grid" id="features"></div>
+                        
+                        <!-- Referee Analysis Section -->
+                        <div id="refAnalysisSection" style="display: none;">
+                            <div class="section-label">Referee Analysis</div>
+                            <div id="refAnalysis" class="referee-stats-box"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -971,6 +1932,428 @@
                         <p>No bets logged yet</p>
                         <p style="font-size: 0.8rem; margin-top: 0.5rem;">Make predictions and log bets to track your CLV</p>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Explain Tab -->
+        <div id="explainTab" class="tab-content">
+            <div class="explain-container">
+                <!-- Hero Section -->
+                <div class="explain-hero">
+                    <h2>📚 Understanding the Card Prediction Model</h2>
+                    <p>A step-by-step guide to how we predict total bookings using your inputs</p>
+                </div>
+
+                <!-- No Data State -->
+                <div id="explainNoData" class="explain-no-data">
+                    <div class="explain-no-data-icon">🔮</div>
+                    <h3>Make a Prediction First</h3>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                        Go to the <strong>Predict</strong> tab and run a prediction.<br>
+                        This page will then show you exactly how the model calculated the result.
+                    </p>
+                </div>
+
+                <!-- Explanation Content (shown after prediction) -->
+                <div id="explainContent" style="display: none;">
+                    
+                    <!-- Overview Flow -->
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">→</div>
+                            <div>
+                                <div class="step-title">Model Overview</div>
+                                <div class="step-subtitle">The big picture of how predictions work</div>
+                            </div>
+                        </div>
+                        <div class="step-body">
+                            <div class="flow-diagram">
+                                <div class="flow-node">
+                                    <div class="flow-node-icon">⚽</div>
+                                    <div class="flow-node-label">Teams</div>
+                                </div>
+                                <div class="flow-connector">+</div>
+                                <div class="flow-node">
+                                    <div class="flow-node-icon">🎯</div>
+                                    <div class="flow-node-label">Referee</div>
+                                </div>
+                                <div class="flow-connector">+</div>
+                                <div class="flow-node">
+                                    <div class="flow-node-icon">📊</div>
+                                    <div class="flow-node-label">Odds</div>
+                                </div>
+                                <div class="flow-connector">→</div>
+                                <div class="flow-node" style="border-color: var(--success);">
+                                    <div class="flow-node-icon">🧮</div>
+                                    <div class="flow-node-label">Poisson Model</div>
+                                </div>
+                                <div class="flow-connector">→</div>
+                                <div class="flow-node" style="border-color: var(--success); background: var(--success-light);">
+                                    <div class="flow-node-icon">λ</div>
+                                    <div class="flow-node-label">Expected Cards</div>
+                                </div>
+                            </div>
+                            <p class="step-explanation" style="text-align: center; margin-top: 1rem;">
+                                We combine <strong>team tendencies</strong>, <strong>referee strictness</strong>, and <strong>match context</strong> 
+                                to predict the expected number of cards (λ), then use probability distributions to find betting value.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Team Card Rates -->
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">1</div>
+                            <div>
+                                <div class="step-title">Team Card Rates</div>
+                                <div class="step-subtitle">How many cards does each team typically receive?</div>
+                            </div>
+                        </div>
+                        <div class="step-body">
+                            <p class="step-explanation">
+                                Every team has a <strong>historical card rate</strong> — the average number of cards they receive per match. 
+                                We track this <strong>separately for home and away games</strong> because teams behave differently:
+                            </p>
+                            <ul style="margin: 0.75rem 0 0.75rem 1.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+                                <li><strong>Home teams</strong> tend to be more composed (lower cards)</li>
+                                <li><strong>Away teams</strong> often commit more tactical fouls (higher cards)</li>
+                            </ul>
+                            <p class="step-explanation">
+                                We use <strong>time-decay weighting</strong> — recent matches count more than older ones 
+                                (half-life of 30 days), capturing current form.
+                            </p>
+                            
+                            <div class="viz-container">
+                                <div class="viz-title">Your Match: Team Card Rates</div>
+                                <div class="bar-chart" id="teamRatesChart">
+                                    <!-- Populated by JS -->
+                                </div>
+                            </div>
+
+                            <div class="formula-box">
+                                <span class="var">Base Cards</span> = <span class="var">Home Rate</span> + <span class="var">Away Rate</span><br>
+                                <span class="var">Base Cards</span> = <span class="num" id="explainHomeRate">?</span> + <span class="num" id="explainAwayRate">?</span> = <span class="result" id="explainBaseCards">?</span> cards
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Referee Strictness -->
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">2</div>
+                            <div>
+                                <div class="step-title">Referee Adjustment</div>
+                                <div class="step-subtitle">How strict is the assigned referee?</div>
+                            </div>
+                        </div>
+                        <div class="step-body">
+                            <p class="step-explanation">
+                                Referees have vastly different styles. Some are <strong>"card-happy"</strong> (strict), 
+                                others prefer to <strong>"let the game flow"</strong> (lenient). We measure this as 
+                                <strong>Strictness</strong> — a multiplier compared to the league average:
+                            </p>
+                            <ul style="margin: 0.75rem 0 0.75rem 1.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+                                <li><strong>Strictness = 1.0</strong> → Exactly average</li>
+                                <li><strong>Strictness > 1.0</strong> → More cards than average (strict)</li>
+                                <li><strong>Strictness < 1.0</strong> → Fewer cards than average (lenient)</li>
+                            </ul>
+
+                            <div class="viz-container">
+                                <div class="viz-title" id="refGaugeTitle">Referee Strictness</div>
+                                <div class="gauge-container">
+                                    <div class="gauge">
+                                        <div class="gauge-bg"></div>
+                                        <div class="gauge-mask"></div>
+                                        <div class="gauge-needle" id="refNeedle" style="transform: rotate(-45deg);"></div>
+                                        <div class="gauge-value" id="refStrictValue">1.0x</div>
+                                    </div>
+                                </div>
+                                <div class="gauge-labels">
+                                    <span>🟢 Lenient</span>
+                                    <span>🟡 Average</span>
+                                    <span>🔴 Strict</span>
+                                </div>
+                                <div id="refStatsDetail" style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: var(--text-secondary);"></div>
+                            </div>
+
+                            <div class="formula-box">
+                                <span class="var">Adjusted Cards</span> = <span class="var">Base Cards</span> × <span class="var">Ref Strictness</span><br>
+                                <span class="var">Adjusted Cards</span> = <span class="num" id="explainBase2">?</span> × <span class="num" id="explainRefStrict">?</span> ≈ <span class="result" id="explainAdjusted">?</span> cards
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Strength Differential -->
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">3</div>
+                            <div>
+                                <div class="step-title">Match Context: Strength & Derby</div>
+                                <div class="step-subtitle">Game dynamics that affect card counts</div>
+                            </div>
+                        </div>
+                        <div class="step-body">
+                            <p class="step-explanation">
+                                The <strong>type of match</strong> matters. We adjust for:
+                            </p>
+                            <ul style="margin: 0.75rem 0 0.75rem 1.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+                                <li><strong>Strength Differential</strong>: When one team is much stronger (from odds), 
+                                    the weaker team may commit more tactical fouls</li>
+                                <li><strong>Derby Matches</strong>: Liverpool vs Everton, Man Utd vs Man City — higher emotions = more cards</li>
+                                <li><strong>Top 6 Clashes</strong>: High-stakes matches between elite teams</li>
+                            </ul>
+
+                            <div class="viz-container">
+                                <div class="viz-title">Match Context Adjustments</div>
+                                <div id="contextFactors" class="details-grid three" style="margin-top: 0.5rem;">
+                                    <!-- Populated by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: The Model -->
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">4</div>
+                            <div>
+                                <div class="step-title">The GLM Model</div>
+                                <div class="step-subtitle">Combining everything with statistical rigor</div>
+                            </div>
+                        </div>
+                        <div class="step-body">
+                            <p class="step-explanation">
+                                We use a <strong>Generalized Linear Model (GLM)</strong> with a Poisson distribution 
+                                to combine all factors. The model was trained on <strong>all matches this season</strong> 
+                                with time-decay weighting (recent matches count more).
+                            </p>
+                            <p class="step-explanation">
+                                The model outputs <strong>λ (lambda)</strong> — the expected number of total cards. 
+                                This single number captures everything:
+                            </p>
+
+                            <div class="summary-box">
+                                <div class="summary-title">Model Prediction</div>
+                                <div class="summary-value" id="explainLambda">λ = ?</div>
+                                <div class="summary-detail" id="explainLambdaDetail">Expected total cards for this match</div>
+                            </div>
+
+                            <div class="formula-box" style="margin-top: 1rem;">
+                                <span class="op">log</span>(<span class="var">λ</span>) = <span class="var">β₀</span> + 
+                                <span class="var">β₁</span>×<span class="var">home_rate</span> + 
+                                <span class="var">β₂</span>×<span class="var">away_rate</span> + 
+                                <span class="var">β₃</span>×<span class="var">ref_strict</span> + 
+                                <span class="var">β₄</span>×<span class="var">strength</span> + ...<br><br>
+                                <span style="color: #94a3b8;">The model learns optimal weights (β) from historical data</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Probabilities -->
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">5</div>
+                            <div>
+                                <div class="step-title">From λ to Probabilities</div>
+                                <div class="step-subtitle">Using the Poisson distribution</div>
+                            </div>
+                        </div>
+                        <div class="step-body">
+                            <p class="step-explanation">
+                                With λ = <strong id="explainLambda2">?</strong> cards expected, we use the 
+                                <strong>Poisson distribution</strong> to calculate the probability of exactly 0, 1, 2, 3... cards:
+                            </p>
+
+                            <div class="viz-container">
+                                <div class="viz-title">Probability Distribution (Cards)</div>
+                                <div class="prob-bars" id="probDistChart">
+                                    <!-- Populated by JS -->
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding: 0 1rem; margin-top: 0.25rem;">
+                                    <span style="font-size: 0.7rem; color: var(--text-muted);">0 cards</span>
+                                    <span style="font-size: 0.7rem; color: var(--text-muted);">10+ cards</span>
+                                </div>
+                            </div>
+
+                            <p class="step-explanation">
+                                To get <strong>Over/Under probabilities</strong>, we sum these:
+                            </p>
+                            <ul style="margin: 0.5rem 0 0.5rem 1.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+                                <li><strong>P(Over 3.5)</strong> = P(4) + P(5) + P(6) + ... = probability of 4+ cards</li>
+                                <li><strong>P(Under 3.5)</strong> = P(0) + P(1) + P(2) + P(3) = probability of 0-3 cards</li>
+                            </ul>
+
+                            <div class="viz-container">
+                                <div class="viz-title">Over/Under Probabilities</div>
+                                <div class="bar-chart" id="ouProbChart">
+                                    <!-- Populated by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 6: Edge Calculation -->
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">6</div>
+                            <div>
+                                <div class="step-title">Finding the Edge</div>
+                                <div class="step-subtitle">Where probability meets bookmaker odds</div>
+                            </div>
+                        </div>
+                        <div class="step-body">
+                            <p class="step-explanation">
+                                The <strong>Edge</strong> is the difference between what we think the true probability is 
+                                and what the bookmaker's odds imply. If we have positive edge, the bet has expected value.
+                            </p>
+
+                            <div class="viz-container">
+                                <div class="viz-title" id="edgeVizTitle">Edge Calculation</div>
+                                <div class="edge-viz" id="edgeVizContent">
+                                    <!-- Populated by JS -->
+                                </div>
+                            </div>
+
+                            <div class="formula-box">
+                                <span class="var">Book Implied Prob</span> = <span class="num">1</span> ÷ <span class="var">Book Odds</span><br>
+                                <span class="var">Edge</span> = <span class="var">Model Prob</span> − <span class="var">Book Implied Prob</span><br><br>
+                                <span style="color: #94a3b8;">Positive edge = bet has expected value in the long run</span>
+                            </div>
+
+                            <p class="step-explanation" style="margin-top: 1rem;">
+                                <strong>Example:</strong> If we calculate 60% probability but the bookmaker's odds imply only 50%, 
+                                we have a <strong>+10% edge</strong>. Over many bets, this edge should translate to profit.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Glossary -->
+                    <div class="step-card">
+                        <div class="step-header">
+                            <div class="step-number">📖</div>
+                            <div>
+                                <div class="step-title">Glossary of Terms</div>
+                                <div class="step-subtitle">Key terminology explained</div>
+                            </div>
+                        </div>
+                        <div class="step-body">
+                            <div class="glossary">
+                                <div class="glossary-item">
+                                    <div class="glossary-term">
+                                        <span class="glossary-term-icon">λ</span>
+                                        Lambda (Expected Value)
+                                    </div>
+                                    <div class="glossary-def">
+                                        The predicted average number of total cards. It's the single most important output of our model — 
+                                        all probabilities derive from this number.
+                                    </div>
+                                    <div class="glossary-example">
+                                        λ = 3.5 means we expect about 3-4 cards on average
+                                    </div>
+                                </div>
+
+                                <div class="glossary-item">
+                                    <div class="glossary-term">
+                                        <span class="glossary-term-icon">📊</span>
+                                        Edge
+                                    </div>
+                                    <div class="glossary-def">
+                                        Your advantage over the bookmaker. Calculated as the difference between your estimated 
+                                        probability and the implied probability from the bookmaker's odds.
+                                    </div>
+                                    <div class="glossary-example">
+                                        +10% edge = you think it's 10% more likely than the bookmaker does
+                                    </div>
+                                </div>
+
+                                <div class="glossary-item">
+                                    <div class="glossary-term">
+                                        <span class="glossary-term-icon">📈</span>
+                                        CLV (Closing Line Value)
+                                    </div>
+                                    <div class="glossary-def">
+                                        The difference between the odds you bet at and the final odds at kickoff. 
+                                        Consistently beating the closing line is the best indicator of long-term profitability.
+                                    </div>
+                                    <div class="glossary-example">
+                                        You bet at 2.00, it closes at 1.80 → you beat the line (+CLV)
+                                    </div>
+                                </div>
+
+                                <div class="glossary-item">
+                                    <div class="glossary-term">
+                                        <span class="glossary-term-icon">🎲</span>
+                                        Poisson Distribution
+                                    </div>
+                                    <div class="glossary-def">
+                                        A probability distribution that models the number of events (like cards) occurring 
+                                        in a fixed period. Perfect for rare, independent events.
+                                    </div>
+                                    <div class="glossary-example">
+                                        Given λ=3, Poisson tells us P(exactly 4 cards) ≈ 16.8%
+                                    </div>
+                                </div>
+
+                                <div class="glossary-item">
+                                    <div class="glossary-term">
+                                        <span class="glossary-term-icon">⚖️</span>
+                                        Fair Odds
+                                    </div>
+                                    <div class="glossary-def">
+                                        The odds that would have zero edge — exactly reflecting the true probability. 
+                                        Calculated as 1 ÷ probability.
+                                    </div>
+                                    <div class="glossary-example">
+                                        If true probability is 50%, fair odds = 1/0.50 = 2.00
+                                    </div>
+                                </div>
+
+                                <div class="glossary-item">
+                                    <div class="glossary-term">
+                                        <span class="glossary-term-icon">⏱️</span>
+                                        Time Decay
+                                    </div>
+                                    <div class="glossary-def">
+                                        A weighting method where recent data counts more than older data. 
+                                        We use a 30-day half-life — a match 30 days ago has half the weight of today's match.
+                                    </div>
+                                    <div class="glossary-example">
+                                        Captures current form rather than outdated patterns
+                                    </div>
+                                </div>
+
+                                <div class="glossary-item">
+                                    <div class="glossary-term">
+                                        <span class="glossary-term-icon">🎯</span>
+                                        Referee Strictness
+                                    </div>
+                                    <div class="glossary-def">
+                                        A multiplier showing how a referee compares to the league average. 
+                                        Calculated from their time-decayed card average ÷ league average.
+                                    </div>
+                                    <div class="glossary-example">
+                                        Strictness 1.2x = referee gives 20% more cards than average
+                                    </div>
+                                </div>
+
+                                <div class="glossary-item">
+                                    <div class="glossary-term">
+                                        <span class="glossary-term-icon">💪</span>
+                                        Strength Differential
+                                    </div>
+                                    <div class="glossary-def">
+                                        The gap in quality between teams, derived from match odds. 
+                                        Positive = home team stronger, negative = away team stronger.
+                                    </div>
+                                    <div class="glossary-example">
+                                        Used to detect if underdogs might commit more tactical fouls
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -1045,10 +2428,214 @@
         </div>
     </div>
 
+    <!-- Bet Details Modal -->
+    <div class="modal-overlay" id="detailsModal">
+        <div class="modal" style="max-width: 600px;">
+            <div class="modal-header">
+                <span class="modal-title">📊 Bet Details</span>
+                <button class="modal-close" onclick="closeDetailsModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="detailsModalBody">
+                <!-- Content populated by JS -->
+            </div>
+            <div class="modal-footer">
+                <button class="secondary" onclick="closeDetailsModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         let lastPrediction = null;
         let modelData = null;
         let betHistory = [];
+        const searchableSelects = {};
+
+        // Searchable Select Component
+        class SearchableSelect {
+            constructor(containerId, options = {}) {
+                this.container = document.getElementById(containerId);
+                this.input = this.container.querySelector('.search-input');
+                this.dropdown = this.container.querySelector('.dropdown-list');
+                this.hiddenInput = this.container.querySelector('input[type="hidden"]');
+                this.clearBtn = this.container.querySelector('.clear-btn');
+                this.options = options;
+                this.items = [];
+                this.filteredItems = [];
+                this.highlightIndex = -1;
+                this.isOpen = false;
+                this.onChange = options.onChange || (() => {});
+                this.showMeta = options.showMeta || false;
+                this.getMeta = options.getMeta || (() => '');
+                
+                this.init();
+            }
+
+            init() {
+                // Input events
+                this.input.addEventListener('focus', () => this.open());
+                this.input.addEventListener('input', () => this.filter());
+                this.input.addEventListener('keydown', (e) => this.handleKeydown(e));
+                
+                // Clear button
+                this.clearBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.clear();
+                });
+                
+                // Click outside to close
+                document.addEventListener('click', (e) => {
+                    if (!this.container.contains(e.target)) {
+                        this.close();
+                    }
+                });
+            }
+
+            setItems(items) {
+                this.items = items.map(item => ({
+                    value: typeof item === 'object' ? item.value : item,
+                    label: typeof item === 'object' ? item.label : item,
+                    meta: typeof item === 'object' ? item.meta : null
+                }));
+                this.filteredItems = [...this.items];
+                this.render();
+            }
+
+            filter() {
+                const query = this.input.value.toLowerCase().trim();
+                if (!query) {
+                    this.filteredItems = [...this.items];
+                } else {
+                    this.filteredItems = this.items.filter(item => 
+                        item.label.toLowerCase().includes(query) ||
+                        (item.meta && item.meta.toLowerCase().includes(query))
+                    );
+                }
+                this.highlightIndex = this.filteredItems.length > 0 ? 0 : -1;
+                this.render();
+            }
+
+            render() {
+                if (this.filteredItems.length === 0) {
+                    this.dropdown.innerHTML = '<div class="no-results">No matches found</div>';
+                    return;
+                }
+
+                this.dropdown.innerHTML = this.filteredItems.map((item, idx) => {
+                    const isSelected = this.hiddenInput.value === item.value;
+                    const isHighlighted = idx === this.highlightIndex;
+                    const classes = ['dropdown-item'];
+                    if (isSelected) classes.push('selected');
+                    if (isHighlighted) classes.push('highlighted');
+                    
+                    let metaHtml = '';
+                    if (this.showMeta && item.meta) {
+                        metaHtml = `<span class="item-meta">${item.meta}</span>`;
+                    }
+                    
+                    return `<div class="${classes.join(' ')}" data-value="${item.value}">
+                        <span class="item-label">${item.label}</span>
+                        ${metaHtml}
+                    </div>`;
+                }).join('');
+
+                // Add click handlers
+                this.dropdown.querySelectorAll('.dropdown-item').forEach(el => {
+                    el.addEventListener('click', () => this.select(el.dataset.value));
+                });
+            }
+
+            open() {
+                this.isOpen = true;
+                this.container.classList.add('open');
+                this.filter();
+            }
+
+            close() {
+                this.isOpen = false;
+                this.container.classList.remove('open');
+                this.highlightIndex = -1;
+                
+                // Reset input to selected value if exists
+                const selected = this.items.find(i => i.value === this.hiddenInput.value);
+                if (selected) {
+                    this.input.value = selected.label;
+                }
+            }
+
+            select(value) {
+                const item = this.items.find(i => i.value === value);
+                if (item) {
+                    this.hiddenInput.value = value;
+                    this.input.value = item.label;
+                    this.container.classList.add('has-value');
+                    this.close();
+                    this.onChange(value);
+                }
+            }
+
+            clear() {
+                this.hiddenInput.value = '';
+                this.input.value = '';
+                this.container.classList.remove('has-value');
+                this.onChange('');
+            }
+
+            getValue() {
+                return this.hiddenInput.value;
+            }
+
+            setValue(value) {
+                if (!value) {
+                    this.clear();
+                    return;
+                }
+                const item = this.items.find(i => i.value === value);
+                if (item) {
+                    this.select(value);
+                }
+            }
+
+            handleKeydown(e) {
+                if (!this.isOpen) {
+                    if (e.key === 'Enter' || e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        this.open();
+                    }
+                    return;
+                }
+
+                switch(e.key) {
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        this.highlightIndex = Math.min(this.highlightIndex + 1, this.filteredItems.length - 1);
+                        this.render();
+                        this.scrollToHighlighted();
+                        break;
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        this.highlightIndex = Math.max(this.highlightIndex - 1, 0);
+                        this.render();
+                        this.scrollToHighlighted();
+                        break;
+                    case 'Enter':
+                        e.preventDefault();
+                        if (this.highlightIndex >= 0 && this.filteredItems[this.highlightIndex]) {
+                            this.select(this.filteredItems[this.highlightIndex].value);
+                        }
+                        break;
+                    case 'Escape':
+                        this.close();
+                        break;
+                }
+            }
+
+            scrollToHighlighted() {
+                const highlighted = this.dropdown.querySelector('.highlighted');
+                if (highlighted) {
+                    highlighted.scrollIntoView({ block: 'nearest' });
+                }
+            }
+        }
 
         document.addEventListener('DOMContentLoaded', init);
 
@@ -1064,18 +2651,39 @@
 
                 modelData = data;
 
-                const homeSelect = document.getElementById('homeTeam');
-                const awaySelect = document.getElementById('awayTeam');
-                const refSelect = document.getElementById('referee');
-
-                data.teams.forEach(team => {
-                    homeSelect.add(new Option(team, team));
-                    awaySelect.add(new Option(team, team));
+                // Initialize searchable dropdowns for teams
+                searchableSelects.homeTeam = new SearchableSelect('homeTeamSelect', {
+                    onChange: () => {},
+                    showMeta: true
                 });
+                // Set teams immediately
+                searchableSelects.homeTeam.setItems(data.teams.map(t => ({ value: t, label: t, meta: 'Loading...' })));
 
-                data.referees.forEach(ref => {
-                    refSelect.add(new Option(ref, ref));
+                searchableSelects.awayTeam = new SearchableSelect('awayTeamSelect', {
+                    onChange: () => {},
+                    showMeta: true
                 });
+                searchableSelects.awayTeam.setItems(data.teams.map(t => ({ value: t, label: t, meta: 'Loading...' })));
+                
+                // Load team stats in background
+                loadAllTeamStats(data.teams);
+
+                // Initialize searchable dropdown for referee with stats
+                searchableSelects.referee = new SearchableSelect('refereeSelect', {
+                    onChange: (value) => loadRefereeStats(),
+                    showMeta: true
+                });
+                
+                // Set referee items immediately (without stats)
+                let refereeItems = data.referees.map(ref => ({
+                    value: ref,
+                    label: ref,
+                    meta: 'Loading...'
+                }));
+                searchableSelects.referee.setItems(refereeItems);
+                
+                // Load referee stats in background and update
+                loadAllRefereeStats(data.referees);
 
                 document.getElementById('modelInfo').innerHTML = `
                     <span class="badge">Model: <strong>${data.model_type}</strong></span>
@@ -1085,6 +2693,73 @@
 
             } catch (err) {
                 document.getElementById('modelInfo').innerHTML = `<span class="badge" style="border-color: #ef4444; color: #ef4444;">Failed to load model</span>`;
+            }
+        }
+
+        async function loadAllTeamStats(teams) {
+            // Load all team stats in parallel
+            const statsPromises = teams.map(async (team) => {
+                try {
+                    const res = await fetch(`/api/team/${encodeURIComponent(team)}`);
+                    const data = await res.json();
+                    if (data.found) {
+                        return {
+                            value: team,
+                            label: team,
+                            meta: `H: ${data.home_rate?.toFixed(1) || '?'} | A: ${data.away_rate?.toFixed(1) || '?'}`,
+                            homeRate: data.home_rate || 0,
+                            awayRate: data.away_rate || 0
+                        };
+                    }
+                    return { value: team, label: team, meta: 'No data' };
+                } catch {
+                    return { value: team, label: team, meta: 'Error' };
+                }
+            });
+
+            const teamItems = await Promise.all(statsPromises);
+            
+            // Update both team dropdowns
+            if (searchableSelects.homeTeam) {
+                // Sort by home card rate for home dropdown
+                const homeItems = [...teamItems].sort((a, b) => (b.homeRate || 0) - (a.homeRate || 0));
+                searchableSelects.homeTeam.setItems(homeItems);
+            }
+            if (searchableSelects.awayTeam) {
+                // Sort by away card rate for away dropdown
+                const awayItems = [...teamItems].sort((a, b) => (b.awayRate || 0) - (a.awayRate || 0));
+                searchableSelects.awayTeam.setItems(awayItems);
+            }
+        }
+
+        async function loadAllRefereeStats(referees) {
+            // Load all referee stats in parallel
+            const statsPromises = referees.map(async (ref) => {
+                try {
+                    const res = await fetch(`/api/referee/${encodeURIComponent(ref)}`);
+                    const data = await res.json();
+                    return {
+                        value: ref,
+                        label: ref,
+                        meta: data.found ? `${data.time_decayed_avg} cards/game` : 'No data'
+                    };
+                } catch {
+                    return { value: ref, label: ref, meta: 'Error' };
+                }
+            });
+
+            const refereeItems = await Promise.all(statsPromises);
+            
+            // Sort by average cards (descending) - strictest first
+            refereeItems.sort((a, b) => {
+                const aVal = parseFloat(a.meta) || 0;
+                const bVal = parseFloat(b.meta) || 0;
+                return bVal - aVal;
+            });
+
+            // Update the searchable select
+            if (searchableSelects.referee) {
+                searchableSelects.referee.setItems(refereeItems);
             }
         }
 
@@ -1098,6 +2773,358 @@
             if (tab === 'history') {
                 loadBetHistory();
             }
+            if (tab === 'explain') {
+                updateExplainTab();
+            }
+        }
+
+        // ============================================
+        // EXPLAIN TAB - Generate educational content
+        // ============================================
+
+        function updateExplainTab() {
+            const noData = document.getElementById('explainNoData');
+            const content = document.getElementById('explainContent');
+            
+            if (!lastPrediction || !lastPrediction.result) {
+                noData.style.display = 'block';
+                content.style.display = 'none';
+                return;
+            }
+
+            noData.style.display = 'none';
+            content.style.display = 'block';
+            
+            // Remove any existing history banner (will be re-added if this is a historical bet)
+            const existingBanner = content.querySelector('.history-banner');
+            if (existingBanner) existingBanner.remove();
+
+            const data = lastPrediction.result;
+            const f = data.features;
+            const refAnalysis = data.referee_analysis;
+
+            // Step 1: Team Card Rates
+            const homeRate = f.home_rate;
+            const awayRate = f.away_rate;
+            const baseCards = homeRate + awayRate;
+            const leagueAvg = modelData ? modelData.league_avg : 3.77;
+
+            // Team rates chart
+            const maxRate = Math.max(homeRate, awayRate, leagueAvg / 2) * 1.2;
+            document.getElementById('teamRatesChart').innerHTML = `
+                <div class="bar-row">
+                    <div class="bar-label">${lastPrediction.home} (H)</div>
+                    <div class="bar-track">
+                        <div class="bar-fill blue" style="width: ${(homeRate / maxRate) * 100}%">${homeRate}</div>
+                    </div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">${lastPrediction.away} (A)</div>
+                    <div class="bar-track">
+                        <div class="bar-fill purple" style="width: ${(awayRate / maxRate) * 100}%">${awayRate}</div>
+                    </div>
+                </div>
+                <div class="bar-row">
+                    <div class="bar-label">League Avg (per team)</div>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width: ${((leagueAvg/2) / maxRate) * 100}%; background: var(--text-muted);">${(leagueAvg/2).toFixed(2)}</div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('explainHomeRate').textContent = homeRate;
+            document.getElementById('explainAwayRate').textContent = awayRate;
+            document.getElementById('explainBaseCards').textContent = baseCards.toFixed(2);
+
+            // Step 2: Referee
+            const refStrict = f.ref_strict;
+            document.getElementById('explainBase2').textContent = baseCards.toFixed(2);
+            document.getElementById('explainRefStrict').textContent = refStrict;
+            document.getElementById('explainAdjusted').textContent = (baseCards * refStrict).toFixed(2);
+
+            // Referee gauge
+            // Strictness ranges from about 0.5 to 1.5, map to -90 to 0 degrees
+            const needleAngle = Math.max(-90, Math.min(0, (refStrict - 0.5) * 90 - 90));
+            document.getElementById('refNeedle').style.transform = `rotate(${needleAngle}deg)`;
+            document.getElementById('refStrictValue').textContent = refStrict + 'x';
+            
+            if (lastPrediction.referee && refAnalysis) {
+                document.getElementById('refGaugeTitle').textContent = `${lastPrediction.referee} - Strictness`;
+                document.getElementById('refStatsDetail').innerHTML = `
+                    📊 ${refAnalysis.games || '?'} games this season · 
+                    Avg: ${refAnalysis.time_decayed_avg || refAnalysis.simple_avg || '?'} cards/game · 
+                    Last 5: ${refAnalysis.last_5_avg || '?'}
+                `;
+            } else {
+                document.getElementById('refGaugeTitle').textContent = 'Referee Strictness (League Average)';
+                document.getElementById('refStatsDetail').innerHTML = 'No referee selected - using league average (1.0x)';
+            }
+
+            // Step 3: Context factors
+            document.getElementById('contextFactors').innerHTML = `
+                <div class="details-item">
+                    <div class="details-item-label">Strength Δ</div>
+                    <div class="details-item-value">${f.strength_diff > 0 ? '+' : ''}${f.strength_diff}</div>
+                </div>
+                <div class="details-item">
+                    <div class="details-item-label">Derby Match</div>
+                    <div class="details-item-value">${f.is_derby ? '🔥 Yes' : 'No'}</div>
+                </div>
+                <div class="details-item">
+                    <div class="details-item-label">Top 6 Clash</div>
+                    <div class="details-item-value">${f.is_top6 ? '⚡ Yes' : 'No'}</div>
+                </div>
+            `;
+
+            // Step 4: Lambda
+            const lambda = data.lambda;
+            document.getElementById('explainLambda').textContent = `λ = ${lambda}`;
+            document.getElementById('explainLambdaDetail').textContent = `Expected total cards for ${lastPrediction.home} vs ${lastPrediction.away}`;
+            document.getElementById('explainLambda2').textContent = lambda;
+
+            // Step 5: Probability distribution
+            const probs = data.probs;
+            generateProbDistChart(lambda);
+            generateOUProbChart(probs);
+
+            // Step 6: Edge calculation
+            generateEdgeViz(data, lastPrediction.odds);
+        }
+
+        function generateProbDistChart(lambda) {
+            // Calculate Poisson probabilities for 0-10 cards
+            const poissonProbs = [];
+            for (let k = 0; k <= 10; k++) {
+                const prob = Math.exp(-lambda) * Math.pow(lambda, k) / factorial(k);
+                poissonProbs.push({ k, prob: prob * 100 });
+            }
+            
+            const maxProb = Math.max(...poissonProbs.map(p => p.prob));
+            const lambdaInt = Math.round(lambda);
+            
+            let html = '';
+            poissonProbs.forEach(({ k, prob }) => {
+                const isHighlight = k === lambdaInt || k === lambdaInt - 1 || k === lambdaInt + 1;
+                const height = (prob / maxProb) * 100;
+                html += `
+                    <div class="prob-bar-item">
+                        <div class="prob-bar ${isHighlight ? 'highlight' : ''}" style="height: ${height}px;">
+                            ${prob > 5 ? `<span class="prob-bar-value">${prob.toFixed(1)}%</span>` : ''}
+                        </div>
+                        <div class="prob-bar-label">${k}</div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('probDistChart').innerHTML = html;
+        }
+
+        function generateOUProbChart(probs) {
+            const lines = [
+                { key: 'o25', label: 'Over 2.5' },
+                { key: 'u35', label: 'Under 3.5' },
+                { key: 'o35', label: 'Over 3.5' },
+                { key: 'u45', label: 'Under 4.5' },
+                { key: 'o45', label: 'Over 4.5' },
+            ];
+            
+            let html = '';
+            lines.forEach(({ key, label }) => {
+                const prob = probs[key] || 0;
+                const color = key.startsWith('o') ? 'blue' : 'green';
+                html += `
+                    <div class="bar-row">
+                        <div class="bar-label">${label}</div>
+                        <div class="bar-track">
+                            <div class="bar-fill ${color}" style="width: ${prob}%">${prob}%</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('ouProbChart').innerHTML = html;
+        }
+
+        function generateEdgeViz(data, odds) {
+            const bestBet = data.best_bet;
+            const bestEdge = data.best_edge;
+            
+            if (!bestBet || !odds || !odds[bestBet]) {
+                document.getElementById('edgeVizTitle').textContent = 'Edge Calculation (No odds entered)';
+                document.getElementById('edgeVizContent').innerHTML = `
+                    <div style="text-align: center; color: var(--text-muted); padding: 1rem;">
+                        Enter bookmaker odds in the Predict tab to see edge calculations
+                    </div>
+                `;
+                return;
+            }
+            
+            const lineLabels = { 
+                o15: 'Over 1.5', u15: 'Under 1.5', o25: 'Over 2.5', u25: 'Under 2.5',
+                o35: 'Over 3.5', u35: 'Under 3.5', o45: 'Over 4.5', u45: 'Under 4.5',
+                o55: 'Over 5.5', u55: 'Under 5.5', o65: 'Over 6.5', u65: 'Under 6.5'
+            };
+            
+            const modelProb = data.probs[bestBet];
+            const bookOdds = odds[bestBet];
+            const bookImplied = (1 / bookOdds * 100).toFixed(1);
+            
+            document.getElementById('edgeVizTitle').textContent = `Edge Calculation: ${lineLabels[bestBet] || bestBet}`;
+            document.getElementById('edgeVizContent').innerHTML = `
+                <div class="edge-box">
+                    <div class="edge-box-label">Model Probability</div>
+                    <div class="edge-box-value" style="color: var(--accent);">${modelProb}%</div>
+                </div>
+                <div class="edge-arrow">−</div>
+                <div class="edge-box">
+                    <div class="edge-box-label">Book Implied (1/${bookOdds})</div>
+                    <div class="edge-box-value">${bookImplied}%</div>
+                </div>
+                <div class="edge-arrow">=</div>
+                <div class="edge-box edge-result">
+                    <div class="edge-box-label">Your Edge</div>
+                    <div class="edge-box-value">+${bestEdge}%</div>
+                </div>
+            `;
+        }
+
+        function factorial(n) {
+            if (n <= 1) return 1;
+            let result = 1;
+            for (let i = 2; i <= n; i++) result *= i;
+            return result;
+        }
+
+        // Load a historical bet into the Explain tab
+        function explainBet(betId) {
+            const bet = betHistory.find(b => b.id === betId);
+            if (!bet || !bet.features) {
+                alert('This bet does not have enough data for explanation');
+                return;
+            }
+
+            // Reconstruct the prediction data from the stored bet
+            // Build probs from lambda using Poisson (approximate)
+            const lambda = bet.lambda;
+            const probs = {};
+            
+            // Calculate cumulative probabilities using Poisson
+            let cumProb = 0;
+            for (let k = 0; k <= 10; k++) {
+                const prob = Math.exp(-lambda) * Math.pow(lambda, k) / factorial(k);
+                cumProb += prob;
+                
+                // Over X.5 = 1 - P(<=X)
+                if (k === 1) { probs.o15 = ((1 - cumProb) * 100).toFixed(1); probs.u15 = (cumProb * 100).toFixed(1); }
+                if (k === 2) { probs.o25 = ((1 - cumProb) * 100).toFixed(1); probs.u25 = (cumProb * 100).toFixed(1); }
+                if (k === 3) { probs.o35 = ((1 - cumProb) * 100).toFixed(1); probs.u35 = (cumProb * 100).toFixed(1); }
+                if (k === 4) { probs.o45 = ((1 - cumProb) * 100).toFixed(1); probs.u45 = (cumProb * 100).toFixed(1); }
+                if (k === 5) { probs.o55 = ((1 - cumProb) * 100).toFixed(1); probs.u55 = (cumProb * 100).toFixed(1); }
+                if (k === 6) { probs.o65 = ((1 - cumProb) * 100).toFixed(1); probs.u65 = (cumProb * 100).toFixed(1); }
+            }
+
+            // Combine stored odds
+            const combinedOdds = { ...(bet.odds_1x2 || {}), ...(bet.odds_cards || {}) };
+
+            // Reconstruct lastPrediction format
+            lastPrediction = {
+                home: bet.home_team || bet.match.split(' vs ')[0],
+                away: bet.away_team || bet.match.split(' vs ')[1],
+                referee: bet.referee,
+                odds: combinedOdds,
+                result: {
+                    lambda: bet.lambda,
+                    probs: probs,
+                    features: bet.features,
+                    referee_analysis: bet.referee_analysis,
+                    best_bet: bet.line,
+                    best_edge: bet.edge,
+                    edges: { [bet.line]: bet.edge }
+                }
+            };
+
+            // Add a banner to show this is a historical bet
+            const historyBanner = `
+                <div style="background: var(--warning-light); border: 1px solid var(--warning); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; text-align: center;">
+                    <strong>📜 Viewing Historical Bet</strong><br>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">
+                        ${bet.match} · ${new Date(bet.timestamp).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                        ${bet.result ? ` · Result: <strong style="color: ${bet.result === 'won' ? 'var(--success)' : 'var(--danger)'};">${bet.result.toUpperCase()}</strong>` : ''}
+                    </span>
+                </div>
+            `;
+
+            // Switch to explain tab
+            switchTab('explain');
+            
+            // Update the explanation
+            updateExplainTab();
+            
+            // Add the history banner at the top
+            const explainContent = document.getElementById('explainContent');
+            const existingBanner = explainContent.querySelector('.history-banner');
+            if (existingBanner) existingBanner.remove();
+            
+            const bannerDiv = document.createElement('div');
+            bannerDiv.className = 'history-banner';
+            bannerDiv.innerHTML = historyBanner;
+            explainContent.insertBefore(bannerDiv, explainContent.firstChild);
+        }
+
+        async function loadRefereeStats() {
+            const referee = document.getElementById('referee').value;
+            const statsBox = document.getElementById('refereeStats');
+            
+            if (!referee) {
+                statsBox.style.display = 'none';
+                return;
+            }
+
+            try {
+                const res = await fetch(`/api/referee/${encodeURIComponent(referee)}`);
+                const data = await res.json();
+                
+                if (!data.found) {
+                    statsBox.innerHTML = `<div style="color: var(--text-muted);">No historical data for ${referee}</div>`;
+                    statsBox.style.display = 'block';
+                    return;
+                }
+
+                const badgeClass = data.interpretation === 'STRICT' ? 'strict' : 
+                                   data.interpretation === 'LENIENT' ? 'lenient' : 'average';
+                
+                statsBox.innerHTML = `
+                    <div class="ref-header">
+                        <span class="ref-name">${data.name}</span>
+                        <span class="ref-badge ${badgeClass}">${data.interpretation}</span>
+                    </div>
+                    <div class="ref-stats-grid">
+                        <div class="ref-stat">
+                            <div class="ref-stat-value">${data.time_decayed_avg}</div>
+                            <div class="ref-stat-label">Cards/Game</div>
+                        </div>
+                        <div class="ref-stat">
+                            <div class="ref-stat-value">${data.last_5_avg}</div>
+                            <div class="ref-stat-label">Last 5</div>
+                        </div>
+                        <div class="ref-stat">
+                            <div class="ref-stat-value">${data.games}</div>
+                            <div class="ref-stat-label">Games</div>
+                        </div>
+                        <div class="ref-stat">
+                            <div class="ref-stat-value">${data.min_cards}-${data.max_cards}</div>
+                            <div class="ref-stat-label">Range</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 0.5rem; font-size: 0.7rem; color: var(--text-muted); text-align: center;">
+                        League avg: ${data.league_avg} cards · Strictness: ${data.strictness}x · Last: ${data.last_match_date}
+                    </div>
+                `;
+                statsBox.style.display = 'block';
+            } catch (err) {
+                console.error('Failed to load referee stats:', err);
+                statsBox.style.display = 'none';
+            }
         }
 
         async function loadBetHistory() {
@@ -1109,8 +3136,13 @@
                 document.getElementById('statTotal').textContent = stats.total_bets;
                 document.getElementById('statWinRate').textContent = stats.win_rate !== null ? stats.win_rate + '%' : '-';
                 document.getElementById('statWinRate').className = 'stat-value' + (stats.win_rate > 50 ? ' positive' : stats.win_rate < 50 ? ' negative' : '');
-                document.getElementById('statAvgEdge').textContent = stats.avg_edge !== null ? '+' + stats.avg_edge + '%' : '-';
-                document.getElementById('statAvgEdge').className = 'stat-value' + (stats.avg_edge > 0 ? ' positive' : '');
+                
+                // Fix avg edge display - handle negative edges
+                const avgEdge = parseFloat(stats.avg_edge);
+                const avgEdgeSign = avgEdge > 0 ? '+' : '';
+                document.getElementById('statAvgEdge').textContent = stats.avg_edge !== null ? avgEdgeSign + stats.avg_edge + '%' : '-';
+                document.getElementById('statAvgEdge').className = 'stat-value' + (avgEdge > 0 ? ' positive' : avgEdge < 0 ? ' negative' : '');
+                
                 document.getElementById('statAvgCLV').textContent = stats.avg_clv !== null ? (stats.avg_clv > 0 ? '+' : '') + stats.avg_clv + '%' : '-';
                 document.getElementById('statAvgCLV').className = 'stat-value' + (stats.avg_clv > 0 ? ' positive' : stats.avg_clv < 0 ? ' negative' : '');
 
@@ -1161,18 +3193,29 @@
                     const status = bet.result || 'pending';
                     const clv = bet.clv !== undefined && bet.clv !== null ? (bet.clv > 0 ? '+' : '') + bet.clv + '%' : '-';
                     const clvClass = bet.clv > 0 ? 'edge-positive' : bet.clv < 0 ? 'edge-negative' : '';
+                    // Check if bet has detailed data (features required for explanation)
+                    const hasDetails = bet.referee || bet.odds_1x2 || bet.odds_cards;
+                    const hasExplainData = bet.features && bet.lambda;
+                    
+                    // Fix edge display - handle negative edges properly
+                    const edgeValue = parseFloat(bet.edge) || 0;
+                    const edgeClass = edgeValue > 0 ? 'edge-positive' : edgeValue < 0 ? 'edge-negative' : '';
+                    const edgeSign = edgeValue > 0 ? '+' : '';
+                    const edgeDisplay = `${edgeSign}${bet.edge}%`;
                     
                     tableHtml += `
                         <tr>
                             <td>${date}</td>
                             <td>${bet.match}</td>
                             <td>${lineLabels[bet.line] || bet.line}</td>
-                            <td class="edge-positive">+${bet.edge}%</td>
+                            <td class="${edgeClass}">${edgeDisplay}</td>
                             <td>@${bet.book_odds}</td>
                             <td>${bet.closing_odds ? '@' + bet.closing_odds : '-'}</td>
                             <td class="${clvClass}">${clv}</td>
                             <td><span class="status-badge ${status}">${status}</span></td>
                             <td class="actions">
+                                <button class="small" onclick="openDetailsModal(${bet.id})" ${hasDetails ? '' : 'disabled'} title="${hasDetails ? 'View details' : 'No details (old bet)'}">👁️</button>
+                                <button class="small" onclick="explainBet(${bet.id})" ${hasExplainData ? '' : 'disabled'} title="${hasExplainData ? 'See how this prediction was made' : 'No model data (old bet)'}" style="background: var(--accent-light); color: var(--accent);">📚</button>
                                 <button class="small secondary" onclick="openEditModal(${bet.id})">Edit</button>
                                 <button class="small danger" onclick="openDeleteModal(${bet.id})">Del</button>
                             </td>
@@ -1257,6 +3300,213 @@
 
         function closeDeleteModal() {
             document.getElementById('deleteModal').classList.remove('active');
+        }
+
+        function openDetailsModal(betId) {
+            const bet = betHistory.find(b => b.id === betId);
+            if (!bet) return;
+
+            const lineLabels = { 
+                o15: 'Over 1.5', u15: 'Under 1.5', o25: 'Over 2.5', u25: 'Under 2.5',
+                o35: 'Over 3.5', u35: 'Under 3.5', o45: 'Over 4.5', u45: 'Under 4.5',
+                o55: 'Over 5.5', u55: 'Under 5.5', o65: 'Over 6.5', u65: 'Under 6.5'
+            };
+
+            const date = new Date(bet.timestamp).toLocaleString('en-GB', { 
+                day: '2-digit', month: 'short', year: 'numeric', 
+                hour: '2-digit', minute: '2-digit' 
+            });
+
+            // Referee badge
+            let refBadge = '';
+            if (bet.referee_analysis) {
+                const ra = bet.referee_analysis;
+                const interp = ra.strictness > 1.1 ? 'STRICT' : ra.strictness < 0.9 ? 'LENIENT' : 'AVERAGE';
+                const badgeClass = interp === 'STRICT' ? 'strict' : interp === 'LENIENT' ? 'lenient' : 'average';
+                refBadge = `<span class="ref-badge ${badgeClass}">${interp}</span>`;
+            }
+
+            let html = `
+                <div class="details-match-header">
+                    <div class="match-name">${bet.match}</div>
+                    <div class="match-date">${date}</div>
+                    ${bet.referee ? `<div class="match-referee">🎯 ${bet.referee} ${refBadge}</div>` : ''}
+                </div>
+
+                <!-- Bet Selection -->
+                <div class="details-section">
+                    <div class="details-section-title">Your Bet</div>
+                    <div class="details-grid four">
+                        <div class="details-item">
+                            <div class="details-item-label">Line</div>
+                            <div class="details-item-value">${lineLabels[bet.line] || bet.line}</div>
+                        </div>
+                        <div class="details-item">
+                            <div class="details-item-label">Book Odds</div>
+                            <div class="details-item-value">@${bet.book_odds}</div>
+                        </div>
+                        <div class="details-item">
+                            <div class="details-item-label">Edge</div>
+                            <div class="details-item-value positive">+${bet.edge}%</div>
+                        </div>
+                        <div class="details-item">
+                            <div class="details-item-label">Model λ</div>
+                            <div class="details-item-value">${bet.lambda}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // 1X2 Odds Section
+            if (bet.odds_1x2 && Object.keys(bet.odds_1x2).length > 0) {
+                html += `
+                    <div class="details-section">
+                        <div class="details-section-title">1X2 Odds (Match Result)</div>
+                        <div class="details-grid three">
+                            <div class="details-item">
+                                <div class="details-item-label">Home (1)</div>
+                                <div class="details-item-value">${bet.odds_1x2.home ? '@' + bet.odds_1x2.home : '-'}</div>
+                            </div>
+                            <div class="details-item">
+                                <div class="details-item-label">Draw (X)</div>
+                                <div class="details-item-value">${bet.odds_1x2.draw ? '@' + bet.odds_1x2.draw : '-'}</div>
+                            </div>
+                            <div class="details-item">
+                                <div class="details-item-label">Away (2)</div>
+                                <div class="details-item-value">${bet.odds_1x2.away ? '@' + bet.odds_1x2.away : '-'}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Card Market Odds Section
+            if (bet.odds_cards && Object.keys(bet.odds_cards).length > 0) {
+                const cardLines = ['o15', 'u15', 'o25', 'u25', 'o35', 'u35', 'o45', 'u45', 'o55', 'u55', 'o65', 'u65'];
+                const availableCards = cardLines.filter(k => bet.odds_cards[k]);
+                
+                if (availableCards.length > 0) {
+                    html += `
+                        <div class="details-section">
+                            <div class="details-section-title">Card Market Odds</div>
+                            <div class="details-grid four">
+                    `;
+                    availableCards.forEach(line => {
+                        const isSelected = line === bet.line;
+                        html += `
+                            <div class="details-item" style="${isSelected ? 'border: 2px solid var(--success); background: var(--success-light);' : ''}">
+                                <div class="details-item-label">${lineLabels[line] || line}</div>
+                                <div class="details-item-value">${bet.odds_cards[line] ? '@' + bet.odds_cards[line] : '-'}</div>
+                            </div>
+                        `;
+                    });
+                    html += `</div></div>`;
+                }
+            }
+
+            // Model Features Section
+            if (bet.features) {
+                const f = bet.features;
+                html += `
+                    <div class="details-section">
+                        <div class="details-section-title">Model Inputs</div>
+                        <div class="details-grid three">
+                            <div class="details-item">
+                                <div class="details-item-label">Home Rate</div>
+                                <div class="details-item-value">${f.home_rate}</div>
+                            </div>
+                            <div class="details-item">
+                                <div class="details-item-label">Away Rate</div>
+                                <div class="details-item-value">${f.away_rate}</div>
+                            </div>
+                            <div class="details-item">
+                                <div class="details-item-label">Ref Strict</div>
+                                <div class="details-item-value">${f.ref_strict}x</div>
+                            </div>
+                            <div class="details-item">
+                                <div class="details-item-label">Strength Δ</div>
+                                <div class="details-item-value">${f.strength_diff > 0 ? '+' : ''}${f.strength_diff}</div>
+                            </div>
+                            <div class="details-item">
+                                <div class="details-item-label">Derby</div>
+                                <div class="details-item-value">${f.is_derby ? '🔥 Yes' : 'No'}</div>
+                            </div>
+                            <div class="details-item">
+                                <div class="details-item-label">Top 6</div>
+                                <div class="details-item-value">${f.is_top6 ? '⚡ Yes' : 'No'}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Referee Analysis Section
+            if (bet.referee_analysis) {
+                const ra = bet.referee_analysis;
+                html += `
+                    <div class="details-section">
+                        <div class="details-section-title">Referee Stats (at time of bet)</div>
+                        <div class="details-grid four">
+                            <div class="details-item">
+                                <div class="details-item-label">Cards/Game</div>
+                                <div class="details-item-value">${ra.time_decayed_avg || ra.simple_avg || '-'}</div>
+                            </div>
+                            <div class="details-item">
+                                <div class="details-item-label">Last 5</div>
+                                <div class="details-item-value">${ra.last_5_avg || '-'}</div>
+                            </div>
+                            <div class="details-item">
+                                <div class="details-item-label">Games</div>
+                                <div class="details-item-value">${ra.games || '-'}</div>
+                            </div>
+                            <div class="details-item">
+                                <div class="details-item-label">Strictness</div>
+                                <div class="details-item-value">${ra.strictness ? ra.strictness + 'x' : '-'}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Result Section (if available)
+            if (bet.result || bet.closing_odds) {
+                html += `
+                    <div class="details-section">
+                        <div class="details-section-title">Result</div>
+                        <div class="details-grid three">
+                            <div class="details-item">
+                                <div class="details-item-label">Status</div>
+                                <div class="details-item-value ${bet.result === 'won' ? 'positive' : bet.result === 'lost' ? 'negative' : ''}">${bet.result ? bet.result.toUpperCase() : 'PENDING'}</div>
+                            </div>
+                            <div class="details-item">
+                                <div class="details-item-label">Closing Odds</div>
+                                <div class="details-item-value">${bet.closing_odds ? '@' + bet.closing_odds : '-'}</div>
+                            </div>
+                            <div class="details-item">
+                                <div class="details-item-label">CLV</div>
+                                <div class="details-item-value ${bet.clv > 0 ? 'positive' : bet.clv < 0 ? 'negative' : ''}">${bet.clv !== undefined && bet.clv !== null ? (bet.clv > 0 ? '+' : '') + bet.clv + '%' : '-'}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Notes Section (if available)
+            if (bet.notes) {
+                html += `
+                    <div class="details-section">
+                        <div class="details-section-title">Notes</div>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem;">${bet.notes}</p>
+                    </div>
+                `;
+            }
+
+            document.getElementById('detailsModalBody').innerHTML = html;
+            document.getElementById('detailsModal').classList.add('active');
+        }
+
+        function closeDetailsModal() {
+            document.getElementById('detailsModal').classList.remove('active');
         }
 
         async function confirmDelete() {
@@ -1407,7 +3657,24 @@
             });
             document.getElementById('probTable').innerHTML = tableHtml;
 
+            // Find best available bet from all entered odds
+            let bestAvailableBet = null;
+            let bestAvailableEdge = -Infinity;
+            allLines.forEach(line => {
+                if (odds[line] && data.edges[line] !== undefined) {
+                    if (data.edges[line] > bestAvailableEdge) {
+                        bestAvailableEdge = data.edges[line];
+                        bestAvailableBet = line;
+                    }
+                }
+            });
+
+            // Store for logging
+            lastPrediction.bestAvailableBet = bestAvailableBet;
+            lastPrediction.bestAvailableEdge = bestAvailableEdge;
+
             if (data.best_bet && data.best_edge > 5) {
+                // Value bet found
                 document.getElementById('bestBet').style.display = 'block';
                 document.getElementById('noValue').style.display = 'none';
                 document.getElementById('bestBetLine').textContent = lineLabels[data.best_bet] || data.best_bet.toUpperCase();
@@ -1415,29 +3682,188 @@
                 document.getElementById('logBtn').style.display = 'block';
                 document.getElementById('logBtn').textContent = 'Log Bet for CLV Tracking';
                 document.getElementById('logBtn').disabled = false;
+                document.getElementById('bestAvailableSection').style.display = 'none';
             } else {
+                // No value bet found - show best available option
                 document.getElementById('bestBet').style.display = 'none';
                 document.getElementById('noValue').style.display = 'block';
                 document.getElementById('logBtn').style.display = 'none';
+                
+                // Show best available if any odds were entered
+                // Collect all bets with odds entered
+                const availableBets = [];
+                allLines.forEach(line => {
+                    if (odds[line] && data.edges[line] !== undefined) {
+                        availableBets.push({
+                            line: line,
+                            label: lineLabels[line],
+                            edge: data.edges[line],
+                            prob: data.probs[line],
+                            bookOdds: odds[line]
+                        });
+                    }
+                });
+
+                // Sort by edge (best first)
+                availableBets.sort((a, b) => b.edge - a.edge);
+                
+                // Store for logging
+                lastPrediction.availableBets = availableBets;
+
+                if (availableBets.length > 0) {
+                    document.getElementById('bestAvailableSection').style.display = 'block';
+                    
+                    // Populate the dropdown
+                    const selector = document.getElementById('betSelector');
+                    selector.innerHTML = availableBets.map((bet, idx) => {
+                        const edgeSign = bet.edge > 0 ? '+' : '';
+                        const bestTag = idx === 0 ? ' ⭐' : '';
+                        return `<option value="${bet.line}">${bet.label} (${edgeSign}${bet.edge.toFixed(1)}%)${bestTag}</option>`;
+                    }).join('');
+                    
+                    // Update edge display for selected bet
+                    updateSelectedBetEdge();
+                    
+                    // Reset the log button
+                    const logAnywayBtn = document.getElementById('logAnyway');
+                    logAnywayBtn.textContent = 'Log for CLV';
+                    logAnywayBtn.disabled = false;
+                    
+                    // Show/hide best indicator
+                    document.getElementById('bestIndicator').style.display = availableBets.length > 1 ? 'flex' : 'none';
+                } else {
+                    document.getElementById('bestAvailableSection').style.display = 'none';
+                }
             }
 
             const f = data.features;
             document.getElementById('features').innerHTML = `
                 <div class="feature-item"><div class="feature-label">Home Rate</div><div class="feature-value">${f.home_rate}</div></div>
                 <div class="feature-item"><div class="feature-label">Away Rate</div><div class="feature-value">${f.away_rate}</div></div>
-                <div class="feature-item"><div class="feature-label">Ref Strict</div><div class="feature-value">${f.ref_strict}</div></div>
-                <div class="feature-item"><div class="feature-label">Strength Δ</div><div class="feature-value">${f.strength_diff}</div></div>
-                <div class="feature-item"><div class="feature-label">Derby</div><div class="feature-value">${f.is_derby ? 'Yes' : 'No'}</div></div>
-                <div class="feature-item"><div class="feature-label">Top 6</div><div class="feature-value">${f.is_top6 ? 'Yes' : 'No'}</div></div>
+                <div class="feature-item"><div class="feature-label">Ref Strict</div><div class="feature-value">${f.ref_strict}x</div></div>
+                <div class="feature-item"><div class="feature-label">Strength Δ</div><div class="feature-value">${f.strength_diff > 0 ? '+' : ''}${f.strength_diff}</div></div>
+                <div class="feature-item"><div class="feature-label">Derby</div><div class="feature-value">${f.is_derby ? '🔥 Yes' : 'No'}</div></div>
+                <div class="feature-item"><div class="feature-label">Top 6</div><div class="feature-value">${f.is_top6 ? '⚡ Yes' : 'No'}</div></div>
             `;
+            
+            // Show referee analysis if available
+            const refSection = document.getElementById('refAnalysisSection');
+            const refAnalysis = document.getElementById('refAnalysis');
+            
+            if (data.referee_analysis) {
+                const ra = data.referee_analysis;
+                const interpretation = ra.strictness > 1.1 ? 'STRICT' : ra.strictness < 0.9 ? 'LENIENT' : 'AVERAGE';
+                const badgeClass = interpretation === 'STRICT' ? 'strict' : 
+                                   interpretation === 'LENIENT' ? 'lenient' : 'average';
+                
+                refAnalysis.innerHTML = `
+                    <div class="ref-stats-grid">
+                        <div class="ref-stat">
+                            <div class="ref-stat-value">${ra.time_decayed_avg || '-'}</div>
+                            <div class="ref-stat-label">Cards/Game</div>
+                        </div>
+                        <div class="ref-stat">
+                            <div class="ref-stat-value">${ra.last_5_avg || '-'}</div>
+                            <div class="ref-stat-label">Last 5</div>
+                        </div>
+                        <div class="ref-stat">
+                            <div class="ref-stat-value">${ra.games || 0}</div>
+                            <div class="ref-stat-label">Games</div>
+                        </div>
+                        <div class="ref-stat">
+                            <div class="ref-stat-value" style="color: ${badgeClass === 'strict' ? 'var(--danger)' : badgeClass === 'lenient' ? 'var(--success)' : 'var(--warning)'}">${interpretation}</div>
+                            <div class="ref-stat-label">Rating</div>
+                        </div>
+                    </div>
+                `;
+                refSection.style.display = 'block';
+            } else {
+                refSection.style.display = 'none';
+            }
+            
+            // Update the Explain tab with new prediction data
+            // (will be shown when user clicks on Explain tab)
+            // Also show a subtle indicator that new explanation is available
+            updateExplainTab();
         }
 
-        async function logBet() {
-            if (!lastPrediction || !lastPrediction.result.best_bet) return;
+        function updateSelectedBetEdge() {
+            const selector = document.getElementById('betSelector');
+            const selectedLine = selector.value;
+            const edgeEl = document.getElementById('selectedBetEdge');
+            
+            if (!lastPrediction || !lastPrediction.availableBets) return;
+            
+            const bet = lastPrediction.availableBets.find(b => b.line === selectedLine);
+            if (bet) {
+                const edgeSign = bet.edge > 0 ? '+' : '';
+                edgeEl.textContent = `${edgeSign}${bet.edge.toFixed(1)}% edge`;
+                edgeEl.className = 'best-available-edge ' + (bet.edge > 0 ? 'positive' : bet.edge < -5 ? 'negative' : '');
+            }
+        }
+
+        async function logSelectedBet() {
+            if (!lastPrediction) return;
+            
+            const selector = document.getElementById('betSelector');
+            const selectedLine = selector.value;
+            
+            if (!selectedLine) {
+                alert('Please select a bet');
+                return;
+            }
 
             const data = lastPrediction.result;
-            const line = data.best_bet;
             const odds = lastPrediction.odds;
+
+            try {
+                const res = await fetch('/api/log_bet', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        match: `${lastPrediction.home} vs ${lastPrediction.away}`,
+                        line: selectedLine,
+                        model_prob: data.probs[selectedLine],
+                        book_odds: odds[selectedLine],
+                        edge: data.edges[selectedLine],
+                        lambda: data.lambda,
+                        home_team: lastPrediction.home,
+                        away_team: lastPrediction.away,
+                        referee: lastPrediction.referee,
+                        odds: odds,
+                        features: data.features,
+                        referee_analysis: data.referee_analysis,
+                        is_value_bet: false  // Not a value bet since we're in "no value" section
+                    })
+                });
+
+                const result = await res.json();
+                if (result.success) {
+                    const btn = document.getElementById('logAnyway');
+                    btn.textContent = '✓ Logged';
+                    btn.disabled = true;
+                }
+            } catch (err) {
+                alert('Failed to log bet');
+            }
+        }
+
+        async function logBet(logBestAvailable = false) {
+            if (!lastPrediction) return;
+
+            const data = lastPrediction.result;
+            const odds = lastPrediction.odds;
+            
+            // Determine which bet to log
+            let line;
+            if (logBestAvailable && lastPrediction.bestAvailableBet) {
+                line = lastPrediction.bestAvailableBet;
+            } else if (data.best_bet) {
+                line = data.best_bet;
+            } else {
+                alert('No bet to log');
+                return;
+            }
 
             try {
                 const res = await fetch('/api/log_bet', {
@@ -1449,14 +3875,28 @@
                         model_prob: data.probs[line],
                         book_odds: odds[line],
                         edge: data.edges[line],
-                        lambda: data.lambda
+                        lambda: data.lambda,
+                        // NEW: Full input details for history
+                        home_team: lastPrediction.home,
+                        away_team: lastPrediction.away,
+                        referee: lastPrediction.referee,
+                        odds: odds,  // All odds (1X2 + card markets)
+                        features: data.features,
+                        referee_analysis: data.referee_analysis,
+                        is_value_bet: !logBestAvailable && data.best_edge > 5  // Track if this was a value bet
                     })
                 });
 
                 const result = await res.json();
                 if (result.success) {
-                    document.getElementById('logBtn').textContent = '✓ Bet Logged';
-                    document.getElementById('logBtn').disabled = true;
+                    if (logBestAvailable) {
+                        const btn = document.getElementById('logAnyway');
+                        btn.textContent = '✓ Logged';
+                        btn.disabled = true;
+                    } else {
+                        document.getElementById('logBtn').textContent = '✓ Bet Logged';
+                        document.getElementById('logBtn').disabled = true;
+                    }
                 }
             } catch (err) {
                 alert('Failed to log bet');

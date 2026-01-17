@@ -1,50 +1,237 @@
 [
   {
-    "timestamp": "2026-01-16T14:21:50.601094",
-    "match": "Manchester Utd vs Manchester City",
-    "line": "u35",
-    "model_prob_raw": 0.719,
-    "model_prob_pct": 71.9,
-    "book_odds": 1.88,
-    "edge": 18.7,
-    "lambda": 2.68,
-    "closing_odds": null,
-    "result": null
-  },
-  {
-    "timestamp": "2026-01-16T18:06:00.876000",
-    "match": "Chelsea vs Brentford",
-    "line": "o45",
-    "model_prob_raw": 0.615,
-    "model_prob_pct": 61.5,
-    "book_odds": 4.5,
-    "edge": 39.2,
-    "lambda": 5.32,
-    "closing_odds": null,
-    "result": null
-  },
-  {
-    "timestamp": "2026-01-16T18:08:29.624534",
+    "timestamp": "2026-01-17T13:40:47.855205",
     "match": "Leeds United vs Fulham",
-    "line": "o45",
-    "model_prob_raw": 0.601,
-    "model_prob_pct": 60.1,
-    "book_odds": 2.48,
-    "edge": 19.8,
-    "lambda": 5.24,
+    "line": "o35",
+    "model_prob_raw": 0.644,
+    "model_prob_pct": 64.4,
+    "book_odds": 1.69,
+    "edge": 5.2,
+    "lambda": 4.42,
     "closing_odds": null,
-    "result": null
+    "result": null,
+    "home_team": "Leeds United",
+    "away_team": "Fulham",
+    "referee": "Chris Kavanagh",
+    "odds_1x2": {
+      "home": 2.15,
+      "draw": 3.4,
+      "away": 3.55
+    },
+    "odds_cards": {
+      "o25": 1.28,
+      "u25": 3.25,
+      "o35": 1.69,
+      "u35": 2.01,
+      "o45": 2.48,
+      "u45": 1.46
+    },
+    "features": {
+      "away_rate": 3.05,
+      "home_rate": 1.59,
+      "is_derby": 0,
+      "is_top6": 0,
+      "ref_strict": 1.02,
+      "strength_diff": 0.53
+    },
+    "referee_analysis": {
+      "games": 16,
+      "last_5_avg": 3.8,
+      "last_match_date": "2026-01-03",
+      "max_cards": 7,
+      "min_cards": 2,
+      "simple_avg": 4.06,
+      "std_dev": 1.68,
+      "strictness": 1.024,
+      "time_decayed_avg": 3.94
+    }
   },
   {
-    "timestamp": "2026-01-16T18:10:04.890038",
+    "timestamp": "2026-01-17T13:43:13.020662",
     "match": "Aston Villa vs Everton",
     "line": "u35",
-    "model_prob_raw": 0.758,
-    "model_prob_pct": 75.8,
+    "model_prob_raw": 0.813,
+    "model_prob_pct": 81.3,
     "book_odds": 1.88,
-    "edge": 22.7,
-    "lambda": 2.5,
+    "edge": 28.1,
+    "lambda": 2.23,
     "closing_odds": null,
-    "result": null
+    "result": null,
+    "home_team": "Aston Villa",
+    "away_team": "Everton",
+    "referee": "Tony Harrington",
+    "odds_1x2": {
+      "home": 1.69,
+      "draw": 3.9,
+      "away": 5.2
+    },
+    "odds_cards": {
+      "o25": 1.32,
+      "u25": 2.95,
+      "o35": 1.79,
+      "u35": 1.88,
+      "o45": 2.65,
+      "u45": 1.4
+    },
+    "features": {
+      "away_rate": 1.24,
+      "home_rate": 0.9,
+      "is_derby": 0,
+      "is_top6": 0,
+      "ref_strict": 0.73,
+      "strength_diff": 1.15
+    },
+    "referee_analysis": {
+      "games": 10,
+      "last_5_avg": 2.6,
+      "last_match_date": "2026-01-06",
+      "max_cards": 6,
+      "min_cards": 1,
+      "simple_avg": 3.1,
+      "std_dev": 1.87,
+      "strictness": 0.733,
+      "time_decayed_avg": 2.82
+    }
+  },
+  {
+    "timestamp": "2026-01-17T14:03:16.210960",
+    "match": "Manchester Utd vs Manchester City",
+    "line": "u35",
+    "model_prob_raw": 0.539,
+    "model_prob_pct": 53.9,
+    "book_odds": 1.9,
+    "edge": 1.3,
+    "lambda": 3.49,
+    "closing_odds": null,
+    "result": null,
+    "home_team": "Manchester Utd",
+    "away_team": "Manchester City",
+    "referee": "Anthony Taylor",
+    "odds_1x2": {
+      "home": 3.55,
+      "draw": 4,
+      "away": 1.97
+    },
+    "odds_cards": {
+      "o25": 1.31,
+      "u25": 3.05,
+      "o35": 1.77,
+      "u35": 1.9,
+      "o45": 2.65,
+      "u45": 1.4
+    },
+    "features": {
+      "away_rate": 1.5,
+      "home_rate": 1.48,
+      "is_derby": 1,
+      "is_top6": 1,
+      "ref_strict": 1.13,
+      "strength_diff": -0.65
+    },
+    "referee_analysis": {
+      "games": 17,
+      "last_5_avg": 4.2,
+      "last_match_date": "2026-01-08",
+      "max_cards": 9,
+      "min_cards": 0,
+      "simple_avg": 3.88,
+      "std_dev": 2.4,
+      "strictness": 1.127,
+      "time_decayed_avg": 4.33
+    }
+  },
+  {
+    "timestamp": "2026-01-17T14:07:00.543023",
+    "match": "Tottenham vs West Ham",
+    "line": "o45",
+    "model_prob_raw": 0.645,
+    "model_prob_pct": 64.5,
+    "book_odds": 2.39,
+    "edge": 22.7,
+    "lambda": 5.52,
+    "closing_odds": null,
+    "result": null,
+    "home_team": "Tottenham",
+    "away_team": "West Ham",
+    "referee": "Jarred Gillett",
+    "odds_1x2": {
+      "home": 1.75,
+      "draw": 4,
+      "away": 4.6
+    },
+    "odds_cards": {
+      "o25": 1.25,
+      "u25": 3.4,
+      "o35": 1.64,
+      "u35": 2.08,
+      "o45": 2.39,
+      "u45": 1.49
+    },
+    "features": {
+      "away_rate": 2.14,
+      "home_rate": 3.64,
+      "is_derby": 0,
+      "is_top6": 0,
+      "ref_strict": 0.78,
+      "strength_diff": 1.02
+    },
+    "referee_analysis": {
+      "games": 11,
+      "last_5_avg": 3.4,
+      "last_match_date": "2026-01-04",
+      "max_cards": 6,
+      "min_cards": 1,
+      "simple_avg": 3.45,
+      "std_dev": 1.67,
+      "strictness": 0.783,
+      "time_decayed_avg": 3.01
+    }
+  },
+  {
+    "timestamp": "2026-01-17T14:16:45.702790",
+    "match": "Chelsea vs Brentford",
+    "line": "o35",
+    "model_prob_raw": 0.696,
+    "model_prob_pct": 69.6,
+    "book_odds": 1.37,
+    "edge": -3.4,
+    "lambda": 4.74,
+    "closing_odds": null,
+    "result": null,
+    "home_team": "Chelsea",
+    "away_team": "Brentford",
+    "referee": "John Brooks",
+    "odds_1x2": {
+      "home": 1.87,
+      "draw": 3.85,
+      "away": 4.1
+    },
+    "odds_cards": {
+      "o35": 1.37,
+      "u35": 2.75,
+      "o45": 1.83,
+      "u45": 1.84,
+      "o55": 2.7,
+      "u55": 1.39
+    },
+    "features": {
+      "away_rate": 2.53,
+      "home_rate": 2.14,
+      "is_derby": 0,
+      "is_top6": 0,
+      "ref_strict": 1.22,
+      "strength_diff": 0.84
+    },
+    "referee_analysis": {
+      "games": 7,
+      "last_5_avg": 4.6,
+      "last_match_date": "2026-01-04",
+      "max_cards": 10,
+      "min_cards": 0,
+      "simple_avg": 4.29,
+      "std_dev": 2.86,
+      "strictness": 1.22,
+      "time_decayed_avg": 4.69
+    }
   }
 ]
