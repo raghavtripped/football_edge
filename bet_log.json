@@ -8,8 +8,8 @@
     "book_odds": 1.69,
     "edge": 5.2,
     "lambda": 4.42,
-    "closing_odds": null,
-    "result": null,
+    "closing_odds": 1.8,
+    "result": "won",
     "home_team": "Leeds United",
     "away_team": "Fulham",
     "referee": "Chris Kavanagh",
@@ -44,7 +44,11 @@
       "std_dev": 1.68,
       "strictness": 1.024,
       "time_decayed_avg": 3.94
-    }
+    },
+    "notes": null,
+    "clv": -3.62,
+    "match_date": "2026-01-17",
+    "match_time": null
   },
   {
     "timestamp": "2026-01-17T13:43:13.020662",
@@ -55,8 +59,8 @@
     "book_odds": 1.88,
     "edge": 28.1,
     "lambda": 2.23,
-    "closing_odds": null,
-    "result": null,
+    "closing_odds": 1.75,
+    "result": "won",
     "home_team": "Aston Villa",
     "away_team": "Everton",
     "referee": "Tony Harrington",
@@ -91,7 +95,11 @@
       "std_dev": 1.87,
       "strictness": 0.733,
       "time_decayed_avg": 2.82
-    }
+    },
+    "notes": null,
+    "clv": 3.95,
+    "match_date": "2026-01-18",
+    "match_time": null
   },
   {
     "timestamp": "2026-01-17T14:03:16.210960",
@@ -102,8 +110,8 @@
     "book_odds": 1.9,
     "edge": 1.3,
     "lambda": 3.49,
-    "closing_odds": null,
-    "result": null,
+    "closing_odds": 2.11,
+    "result": "lost",
     "home_team": "Manchester Utd",
     "away_team": "Manchester City",
     "referee": "Anthony Taylor",
@@ -138,7 +146,11 @@
       "std_dev": 2.4,
       "strictness": 1.127,
       "time_decayed_avg": 4.33
-    }
+    },
+    "notes": "Result was 5 ",
+    "clv": -5.24,
+    "match_date": "2026-01-17",
+    "match_time": null
   },
   {
     "timestamp": "2026-01-17T14:07:00.543023",
@@ -149,8 +161,8 @@
     "book_odds": 2.39,
     "edge": 22.7,
     "lambda": 5.52,
-    "closing_odds": null,
-    "result": null,
+    "closing_odds": 2.15,
+    "result": "won",
     "home_team": "Tottenham",
     "away_team": "West Ham",
     "referee": "Jarred Gillett",
@@ -185,7 +197,11 @@
       "std_dev": 1.67,
       "strictness": 0.783,
       "time_decayed_avg": 3.01
-    }
+    },
+    "notes": null,
+    "clv": 4.67,
+    "match_date": "2026-01-17",
+    "match_time": null
   },
   {
     "timestamp": "2026-01-17T14:16:45.702790",
@@ -196,8 +212,8 @@
     "book_odds": 1.37,
     "edge": -3.4,
     "lambda": 4.74,
-    "closing_odds": null,
-    "result": null,
+    "closing_odds": 1.37,
+    "result": "won",
     "home_team": "Chelsea",
     "away_team": "Brentford",
     "referee": "John Brooks",
@@ -232,6 +248,461 @@
       "std_dev": 2.86,
       "strictness": 1.22,
       "time_decayed_avg": 4.69
-    }
+    },
+    "notes": null,
+    "clv": 0.0,
+    "match_date": "2026-01-17",
+    "match_time": null
+  },
+  {
+    "timestamp": "2026-01-17T20:22:24.305599",
+    "match": "Liverpool vs Burnley",
+    "line": "o15",
+    "model_prob_raw": 0.802,
+    "model_prob_pct": 80.2,
+    "book_odds": 1.22,
+    "edge": -1.8,
+    "lambda": 3,
+    "closing_odds": 1.22,
+    "result": "won",
+    "home_team": "Liverpool",
+    "away_team": "Burnley",
+    "referee": "Andy Madley",
+    "odds_1x2": {
+      "home": 1.25,
+      "draw": 6.6,
+      "away": 12
+    },
+    "odds_cards": {
+      "o15": 1.22,
+      "u15": 3.65,
+      "o25": 1.65,
+      "u25": 2.06,
+      "o35": 2.5,
+      "u35": 1.45
+    },
+    "features": {
+      "away_rate": 2.42,
+      "home_rate": 0.68,
+      "is_derby": 0,
+      "is_top6": 0,
+      "ref_strict": 0.94,
+      "strength_diff": 2.08
+    },
+    "referee_analysis": {
+      "games": 10,
+      "last_5_avg": 4,
+      "last_match_date": "2026-01-07",
+      "max_cards": 9,
+      "min_cards": 2,
+      "simple_avg": 3.5,
+      "std_dev": 2.11,
+      "strictness": 0.936,
+      "time_decayed_avg": 3.6
+    },
+    "notes": null,
+    "clv": 0.0,
+    "match_date": "2026-01-17",
+    "match_time": null
+  },
+  {
+    "timestamp": "2026-01-17T20:27:20.586323",
+    "match": "Sunderland vs Crystal Palace",
+    "line": "o35",
+    "model_prob_raw": 0.596,
+    "model_prob_pct": 59.6,
+    "book_odds": 1.64,
+    "edge": -1.4,
+    "lambda": 4.15,
+    "closing_odds": 1.65,
+    "result": "won",
+    "home_team": "Sunderland",
+    "away_team": "Crystal Palace",
+    "referee": "Robert Jones",
+    "odds_1x2": {
+      "home": 2.46,
+      "draw": 3.2,
+      "away": 3.2
+    },
+    "odds_cards": {
+      "o25": 1.25,
+      "u25": 3.45,
+      "o35": 1.64,
+      "u35": 2.09,
+      "o45": 2.38,
+      "u45": 1.49
+    },
+    "features": {
+      "away_rate": 1.99,
+      "home_rate": 2.36,
+      "is_derby": 0,
+      "is_top6": 0,
+      "ref_strict": 1.04,
+      "strength_diff": 0.27
+    },
+    "referee_analysis": {
+      "games": 12,
+      "last_5_avg": 4.4,
+      "last_match_date": "2025-12-30",
+      "max_cards": 7,
+      "min_cards": 0,
+      "simple_avg": 3.58,
+      "std_dev": 1.85,
+      "strictness": 1.036,
+      "time_decayed_avg": 3.98
+    },
+    "notes": null,
+    "clv": -0.37,
+    "match_date": "2026-01-17",
+    "match_time": null
+  },
+  {
+    "timestamp": "2026-01-17T21:24:35.221737",
+    "match": "Wolves vs Newcastle Utd",
+    "line": "u35",
+    "model_prob_raw": 0.559,
+    "model_prob_pct": 55.9,
+    "book_odds": 2.55,
+    "edge": 16.7,
+    "lambda": 3.4,
+    "closing_odds": 2.25,
+    "result": "lost",
+    "home_team": "Wolves",
+    "away_team": "Newcastle Utd",
+    "referee": "Samuel Barrott",
+    "odds_1x2": {
+      "home": 4,
+      "draw": 4,
+      "away": 1.77
+    },
+    "odds_cards": {
+      "o35": 1.43,
+      "u35": 2.55,
+      "o45": 1.96,
+      "u45": 1.72,
+      "o55": 2.95,
+      "u55": 1.33
+    },
+    "features": {
+      "away_rate": 2.14,
+      "home_rate": 1.7,
+      "is_derby": 0,
+      "is_top6": 0,
+      "ref_strict": 0.82,
+      "strength_diff": -0.89
+    },
+    "referee_analysis": {
+      "games": 12,
+      "last_5_avg": 2.4,
+      "last_match_date": "2025-12-30",
+      "max_cards": 7,
+      "min_cards": 0,
+      "simple_avg": 4.08,
+      "std_dev": 1.93,
+      "strictness": 0.816,
+      "time_decayed_avg": 3.14
+    },
+    "notes": null,
+    "clv": 5.23,
+    "match_date": "2026-01-18",
+    "match_time": null
+  },
+  {
+    "timestamp": "2026-01-17T21:29:30.686737",
+    "match": "Brighton vs Bournemouth",
+    "line": "u45",
+    "model_prob_raw": 0.731,
+    "model_prob_pct": 73.1,
+    "book_odds": 1.79,
+    "edge": 17.2,
+    "lambda": 3.47,
+    "closing_odds": 1.75,
+    "result": "lost",
+    "home_team": "Brighton",
+    "away_team": "Bournemouth",
+    "referee": "Paul Tierney",
+    "odds_1x2": {
+      "home": 1.9,
+      "draw": 4,
+      "away": 3.75
+    },
+    "odds_cards": {
+      "o35": 1.39,
+      "u35": 2.7,
+      "o45": 1.88,
+      "u45": 1.79,
+      "o55": 2.75,
+      "u55": 1.37
+    },
+    "features": {
+      "away_rate": 2.52,
+      "home_rate": 1.7,
+      "is_derby": 0,
+      "is_top6": 0,
+      "ref_strict": 0.52,
+      "strength_diff": 0.75
+    },
+    "referee_analysis": {
+      "games": 1,
+      "last_5_avg": 2,
+      "last_match_date": "2025-12-20",
+      "max_cards": 2,
+      "min_cards": 2,
+      "simple_avg": 2,
+      "std_dev": 0,
+      "strictness": 0.52,
+      "time_decayed_avg": 2
+    },
+    "notes": null,
+    "clv": 1.28,
+    "match_date": "2026-01-20",
+    "match_time": "01:30"
+  },
+  {
+    "timestamp": "2026-01-17T22:29:42.255178",
+    "match": "Nott'ham Forest vs Arsenal",
+    "line": "u35",
+    "model_prob_raw": 0.7,
+    "model_prob_pct": 70.0,
+    "book_odds": 1.58,
+    "edge": 6.7,
+    "lambda": 2.76,
+    "closing_odds": 1.45,
+    "result": "won",
+    "home_team": "Nott'ham Forest",
+    "away_team": "Arsenal",
+    "referee": "Michael Oliver",
+    "odds_1x2": {
+      "home": 5.8,
+      "draw": 4,
+      "away": 1.63
+    },
+    "odds_cards": {
+      "o25": 1.49,
+      "u25": 2.38,
+      "o35": 2.18,
+      "u35": 1.58,
+      "o45": 3.5,
+      "u45": 1.24
+    },
+    "features": {
+      "away_rate": 1.99,
+      "home_rate": 1.07,
+      "is_derby": 0,
+      "is_top6": 0,
+      "ref_strict": 0.78,
+      "strength_diff": -1.28
+    },
+    "referee_analysis": {
+      "games": 16,
+      "last_5_avg": 3,
+      "last_match_date": "2026-01-04",
+      "max_cards": 6,
+      "min_cards": 0,
+      "simple_avg": 2.75,
+      "std_dev": 1.82,
+      "strictness": 0.784,
+      "time_decayed_avg": 3.01
+    },
+    "notes": null,
+    "clv": 5.67,
+    "match_date": "2026-01-17",
+    "match_time": null
+  },
+  {
+    "timestamp": "2026-01-21T01:04:21.038052",
+    "match": "West Ham vs Sunderland",
+    "line": "u45",
+    "model_prob_raw": 0.746,
+    "model_prob_pct": 74.6,
+    "book_odds": 1.35,
+    "edge": 0.5,
+    "lambda": 3.39,
+    "closing_odds": null,
+    "result": null,
+    "home_team": "West Ham",
+    "away_team": "Sunderland",
+    "referee": "Thomas Bramall",
+    "odds_1x2": {
+      "home": 2.5,
+      "draw": 3.35,
+      "away": 2.9
+    },
+    "odds_cards": {
+      "o25": 1.36,
+      "u25": 2.8,
+      "o35": 1.88,
+      "u35": 1.8,
+      "o45": 2.85,
+      "u45": 1.35
+    },
+    "features": {
+      "away_rate": 1.84,
+      "home_rate": 1.71,
+      "is_derby": 0,
+      "is_top6": 0,
+      "ref_strict": 0.98,
+      "strength_diff": 0.16
+    },
+    "referee_analysis": {
+      "games": 12,
+      "last_5_avg": 3.4,
+      "last_match_date": "2026-01-07",
+      "max_cards": 7,
+      "min_cards": 0,
+      "simple_avg": 3.58,
+      "std_dev": 2.18,
+      "strictness": 0.977,
+      "time_decayed_avg": 3.78
+    },
+    "match_date": "2026-01-24",
+    "match_time": "18:00"
+  },
+  {
+    "timestamp": "2026-01-21T01:05:47.757021",
+    "match": "Burnley vs Tottenham",
+    "line": "u45",
+    "model_prob_raw": 0.71,
+    "model_prob_pct": 71.0,
+    "book_odds": 1.38,
+    "edge": -1.4,
+    "lambda": 3.58,
+    "closing_odds": null,
+    "result": null,
+    "home_team": "Burnley",
+    "away_team": "Tottenham",
+    "referee": "Peter Bankes",
+    "odds_1x2": {
+      "home": 3.65,
+      "draw": 3.5,
+      "away": 2.08
+    },
+    "odds_cards": {
+      "o25": 1.33,
+      "u25": 2.95,
+      "o35": 1.82,
+      "u35": 1.85,
+      "o45": 2.75,
+      "u45": 1.38
+    },
+    "features": {
+      "away_rate": 2.47,
+      "home_rate": 1.31,
+      "is_derby": 0,
+      "is_top6": 0,
+      "ref_strict": 1.18,
+      "strength_diff": -0.6
+    },
+    "referee_analysis": {
+      "games": 15,
+      "last_5_avg": 4.6,
+      "last_match_date": "2026-01-07",
+      "max_cards": 9,
+      "min_cards": 1,
+      "simple_avg": 4.6,
+      "std_dev": 2.52,
+      "strictness": 1.178,
+      "time_decayed_avg": 4.56
+    },
+    "match_date": "2026-01-24",
+    "match_time": "20:30"
+  },
+  {
+    "timestamp": "2026-01-21T01:08:02.386197",
+    "match": "Fulham vs Brighton",
+    "line": "u45",
+    "model_prob_raw": 0.675,
+    "model_prob_pct": 67.5,
+    "book_odds": 1.49,
+    "edge": 0.3,
+    "lambda": 3.77,
+    "closing_odds": null,
+    "result": null,
+    "home_team": "Fulham",
+    "away_team": "Brighton",
+    "referee": "Michael Oliver",
+    "odds_1x2": {
+      "home": 2.55,
+      "draw": 3.45,
+      "away": 2.8
+    },
+    "odds_cards": {
+      "o25": 1.26,
+      "u25": 3.4,
+      "o35": 1.64,
+      "u35": 2.08,
+      "o45": 2.38,
+      "u45": 1.49
+    },
+    "features": {
+      "away_rate": 2.16,
+      "home_rate": 2.04,
+      "is_derby": 0,
+      "is_top6": 0,
+      "ref_strict": 0.73,
+      "strength_diff": 0.1
+    },
+    "referee_analysis": {
+      "games": 17,
+      "last_5_avg": 3,
+      "last_match_date": "2026-01-17",
+      "max_cards": 6,
+      "min_cards": 0,
+      "simple_avg": 2.71,
+      "std_dev": 1.77,
+      "strictness": 0.728,
+      "time_decayed_avg": 2.82
+    },
+    "match_date": "2026-01-24",
+    "match_time": "20:30"
+  },
+  {
+    "timestamp": "2026-01-21T01:09:52.971357",
+    "match": "Bournemouth vs Liverpool",
+    "line": "o35",
+    "model_prob_raw": 0.644,
+    "model_prob_pct": 64.4,
+    "book_odds": 1.64,
+    "edge": 3.4,
+    "lambda": 4.42,
+    "closing_odds": null,
+    "result": null,
+    "home_team": "Bournemouth",
+    "away_team": "Liverpool",
+    "referee": "Michael Salisbury",
+    "odds_1x2": {
+      "home": 3.75,
+      "draw": 4,
+      "away": 1.91
+    },
+    "odds_cards": {
+      "o25": 1.25,
+      "u25": 3.4,
+      "o35": 1.64,
+      "u35": 2.08,
+      "o45": 2.39,
+      "u45": 1.49
+    },
+    "features": {
+      "away_rate": 2.01,
+      "home_rate": 2.27,
+      "is_derby": 0,
+      "is_top6": 0,
+      "ref_strict": 1.49,
+      "strength_diff": -0.74
+    },
+    "referee_analysis": {
+      "games": 8,
+      "last_5_avg": 5.6,
+      "last_match_date": "2026-01-07",
+      "max_cards": 8,
+      "min_cards": 1,
+      "simple_avg": 4.88,
+      "std_dev": 1.83,
+      "strictness": 1.491,
+      "time_decayed_avg": 5.77
+    },
+    "match_date": "2026-01-24",
+    "match_time": "23:00"
   }
 ]

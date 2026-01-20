@@ -491,9 +491,10 @@ def predict_single_match(home, away, referee, odds):
     }, None
 
 
-def log_bet(match, line, model_prob, book_odds, edge, lambda_val, 
-             home_team=None, away_team=None, referee=None, 
-             odds_1x2=None, odds_cards=None, features=None, referee_analysis=None):
+def log_bet(match, line, model_prob, book_odds, edge, lambda_val,
+             home_team=None, away_team=None, referee=None,
+             odds_1x2=None, odds_cards=None, features=None, referee_analysis=None,
+             match_date=None, match_time=None):
     """Log a bet for CLV tracking with full input details.
     
     Now stores:
@@ -527,6 +528,8 @@ def log_bet(match, line, model_prob, book_odds, edge, lambda_val,
         'odds_cards': odds_cards,  # {o15, u15, o25, u25, ...}
         'features': features,  # Model features used
         'referee_analysis': referee_analysis,  # Referee stats at time of bet
+        'match_date': match_date,  # Match date (YYYY-MM-DD)
+        'match_time': match_time,  # Match time (HH:MM)
     }
     
     if os.path.exists(BET_LOG_FILE):
@@ -548,6 +551,12 @@ def log_bet(match, line, model_prob, book_odds, edge, lambda_val,
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
+@app.route('/favicon.ico')
+def favicon():
+    """Handle favicon requests to prevent 404 errors."""
+    return '', 204  # No Content
 
 
 @app.route('/api/init', methods=['GET'])
@@ -702,6 +711,8 @@ def api_log_bet():
         odds_cards=odds_cards if odds_cards else None,
         features=data.get('features'),
         referee_analysis=data.get('referee_analysis'),
+        match_date=data.get('match_date'),
+        match_time=data.get('match_time'),
     )
     
     return jsonify({'success': True, 'bet': bet})
@@ -744,6 +755,10 @@ def api_update_bet(bet_id):
         log[bet_id]['result'] = data['result']
     if 'notes' in data:
         log[bet_id]['notes'] = data['notes']
+    if 'match_date' in data:
+        log[bet_id]['match_date'] = data['match_date']
+    if 'match_time' in data:
+        log[bet_id]['match_time'] = data['match_time']
     
     # Calculate CLV if we have closing odds
     if log[bet_id].get('closing_odds') and log[bet_id].get('book_odds'):

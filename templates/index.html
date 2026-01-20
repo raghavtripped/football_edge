@@ -1718,6 +1718,20 @@
                         <div id="refereeStats" class="referee-stats-box" style="display: none;"></div>
                     </div>
 
+                    <div class="form-group">
+                        <div class="label-row">
+                            <label>Match Date</label>
+                        </div>
+                        <input type="date" id="matchDate" placeholder="YYYY-MM-DD">
+                    </div>
+
+                    <div class="form-group">
+                        <div class="label-row">
+                            <label>Match Time</label>
+                        </div>
+                        <input type="time" id="matchTime" placeholder="HH:MM">
+                    </div>
+
                     <div class="section-label">
                         1X2 Odds
                         <span class="tooltip-icon">?
@@ -1855,6 +1869,20 @@
                             <div class="best-bet-label">💰 Best Value</div>
                             <div class="best-bet-value" id="bestBetLine">-</div>
                             <div class="best-bet-edge" id="bestBetEdge">-</div>
+                            <div id="bestBetAvailableSection" class="best-available-section" style="display: none; margin-top: 1rem;">
+                                <div class="best-available-label">Choose bet to log for CLV tracking:</div>
+                                <div class="best-available-content">
+                                    <select id="bestBetSelector" class="bet-selector" onchange="updateBestBetEdge()">
+                                    </select>
+                                    <span id="selectedBestBetEdge" class="best-available-edge">-</span>
+                                    <button id="logBestBet" class="small secondary" onclick="logSelectedBestBet()" style="margin-left: 0.75rem;">
+                                        Log for CLV
+                                    </button>
+                                </div>
+                                <div class="best-indicator" id="bestBetIndicator">
+                                    <span class="best-indicator-icon">⭐</span> Best value is pre-selected
+                                </div>
+                            </div>
                         </div>
 
                         <div id="noValue" class="no-value-box" style="display: none;">
@@ -1874,10 +1902,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <button id="logBtn" class="full success" onclick="logBet()" style="display: none;">
-                            Log Bet for CLV Tracking
-                        </button>
 
                         <div class="section-label">
                             Model Features
@@ -2379,6 +2403,14 @@
                 <div class="form-group">
                     <label>Line</label>
                     <input type="text" id="editLine" disabled>
+                </div>
+                <div class="form-group">
+                    <label>Match Date</label>
+                    <input type="date" id="editMatchDate" placeholder="YYYY-MM-DD">
+                </div>
+                <div class="form-group">
+                    <label>Match Time</label>
+                    <input type="time" id="editMatchTime" placeholder="HH:MM">
                 </div>
                 <div class="form-group">
                     <div class="label-row">
@@ -3173,6 +3205,7 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Match</th>
+                                <th>Match Date/Time</th>
                                 <th>Line</th>
                                 <th>Edge</th>
                                 <th>Book</th>
@@ -3203,10 +3236,45 @@
                     const edgeSign = edgeValue > 0 ? '+' : '';
                     const edgeDisplay = `${edgeSign}${bet.edge}%`;
                     
+                    // Format match date/time as "HH:MM AM/PM DD, Mon YYYY"
+                    let matchDateTime = '-';
+                    if (bet.match_date || bet.match_time) {
+                        let formattedDate = '';
+                        let formattedTime = '';
+
+                        if (bet.match_date) {
+                            // Convert YYYY-MM-DD to DD, Mon YYYY format
+                            const dateObj = new Date(bet.match_date);
+                            const day = dateObj.getDate();
+                            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                                              'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                            const month = monthNames[dateObj.getMonth()];
+                            const year = dateObj.getFullYear();
+                            formattedDate = `${day}, ${month} ${year}`;
+                        }
+
+                        if (bet.match_time) {
+                            // Convert HH:MM to HH:MM AM/PM format
+                            const [hours, minutes] = bet.match_time.split(':');
+                            const hour12 = hours % 12 || 12;
+                            const ampm = hours >= 12 ? 'PM' : 'AM';
+                            formattedTime = `${hour12}:${minutes} ${ampm}`;
+                        }
+
+                        if (formattedDate && formattedTime) {
+                            matchDateTime = `${formattedTime} ${formattedDate}`;
+                        } else if (formattedDate) {
+                            matchDateTime = formattedDate;
+                        } else if (formattedTime) {
+                            matchDateTime = formattedTime;
+                        }
+                    }
+
                     tableHtml += `
                         <tr>
                             <td>${date}</td>
                             <td>${bet.match}</td>
+                            <td>${matchDateTime}</td>
                             <td>${lineLabels[bet.line] || bet.line}</td>
                             <td class="${edgeClass}">${edgeDisplay}</td>
                             <td>@${bet.book_odds}</td>
@@ -3249,6 +3317,8 @@
             document.getElementById('editBetId').value = betId;
             document.getElementById('editMatch').value = bet.match;
             document.getElementById('editLine').value = lineLabels[bet.line] || bet.line;
+            document.getElementById('editMatchDate').value = bet.match_date || '';
+            document.getElementById('editMatchTime').value = bet.match_time || '';
             document.getElementById('editClosingOdds').value = bet.closing_odds || '';
             document.getElementById('editResult').value = bet.result || '';
             document.getElementById('editNotes').value = bet.notes || '';
@@ -3265,6 +3335,8 @@
             const closingOdds = document.getElementById('editClosingOdds').value;
             const result = document.getElementById('editResult').value;
             const notes = document.getElementById('editNotes').value;
+            const matchDate = document.getElementById('editMatchDate').value;
+            const matchTime = document.getElementById('editMatchTime').value;
 
             try {
                 const res = await fetch(`/api/bet_log/${betId}`, {
@@ -3274,6 +3346,8 @@
                         closing_odds: closingOdds ? parseFloat(closingOdds) : null,
                         result: result || null,
                         notes: notes || null,
+                        match_date: matchDate || null,
+                        match_time: matchTime || null,
                     })
                 });
 
@@ -3563,25 +3637,57 @@
             const oddsO65 = document.getElementById('oddsO65').value;
             const oddsU65 = document.getElementById('oddsU65').value;
 
-            if (oddsHome) odds.home = parseFloat(oddsHome);
-            if (oddsDraw) odds.draw = parseFloat(oddsDraw);
-            if (oddsAway) odds.away = parseFloat(oddsAway);
-            if (oddsO15) odds.o15 = parseFloat(oddsO15);
-            if (oddsU15) odds.u15 = parseFloat(oddsU15);
-            if (oddsO25) odds.o25 = parseFloat(oddsO25);
-            if (oddsU25) odds.u25 = parseFloat(oddsU25);
-            if (oddsO35) odds.o35 = parseFloat(oddsO35);
-            if (oddsU35) odds.u35 = parseFloat(oddsU35);
-            if (oddsO45) odds.o45 = parseFloat(oddsO45);
-            if (oddsU45) odds.u45 = parseFloat(oddsU45);
-            if (oddsO55) odds.o55 = parseFloat(oddsO55);
-            if (oddsU55) odds.u55 = parseFloat(oddsU55);
-            if (oddsO65) odds.o65 = parseFloat(oddsO65);
-            if (oddsU65) odds.u65 = parseFloat(oddsU65);
+            // Helper function to parse odds, skipping empty strings, dashes, and invalid values
+            const parseOddsValue = (value) => {
+                if (!value || value.trim() === '' || value === '-') return null;
+                const parsed = parseFloat(value);
+                return isNaN(parsed) ? null : parsed;
+            };
 
-            document.getElementById('placeholder').style.display = 'none';
-            document.getElementById('results').classList.remove('active');
-            document.getElementById('loading').style.display = 'block';
+            const homeOdds = parseOddsValue(oddsHome);
+            const drawOdds = parseOddsValue(oddsDraw);
+            const awayOdds = parseOddsValue(oddsAway);
+            
+            if (homeOdds) odds.home = homeOdds;
+            if (drawOdds) odds.draw = drawOdds;
+            if (awayOdds) odds.away = awayOdds;
+            
+            const o15Odds = parseOddsValue(oddsO15);
+            const u15Odds = parseOddsValue(oddsU15);
+            const o25Odds = parseOddsValue(oddsO25);
+            const u25Odds = parseOddsValue(oddsU25);
+            const o35Odds = parseOddsValue(oddsO35);
+            const u35Odds = parseOddsValue(oddsU35);
+            const o45Odds = parseOddsValue(oddsO45);
+            const u45Odds = parseOddsValue(oddsU45);
+            const o55Odds = parseOddsValue(oddsO55);
+            const u55Odds = parseOddsValue(oddsU55);
+            const o65Odds = parseOddsValue(oddsO65);
+            const u65Odds = parseOddsValue(oddsU65);
+            
+            if (o15Odds) odds.o15 = o15Odds;
+            if (u15Odds) odds.u15 = u15Odds;
+            if (o25Odds) odds.o25 = o25Odds;
+            if (u25Odds) odds.u25 = u25Odds;
+            if (o35Odds) odds.o35 = o35Odds;
+            if (u35Odds) odds.u35 = u35Odds;
+            if (o45Odds) odds.o45 = o45Odds;
+            if (u45Odds) odds.u45 = u45Odds;
+            if (o55Odds) odds.o55 = o55Odds;
+            if (u55Odds) odds.u55 = u55Odds;
+            if (o65Odds) odds.o65 = o65Odds;
+            if (u65Odds) odds.u65 = u65Odds;
+
+            // Helper function to safely set element display
+            const setDisplay = (id, display) => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = display;
+            };
+
+            setDisplay('placeholder', 'none');
+            const resultsEl = document.getElementById('results');
+            if (resultsEl) resultsEl.classList.remove('active');
+            setDisplay('loading', 'block');
 
             try {
                 const res = await fetch('/api/predict', {
@@ -3590,12 +3696,20 @@
                     body: JSON.stringify({ home, away, referee, odds })
                 });
 
+                if (!res.ok) {
+                    const errorData = await res.json().catch(() => ({ error: `HTTP ${res.status}: ${res.statusText}` }));
+                    alert(errorData.error || `Request failed with status ${res.status}`);
+                    setDisplay('loading', 'none');
+                    setDisplay('placeholder', 'block');
+                    return;
+                }
+
                 const data = await res.json();
 
                 if (data.error) {
                     alert(data.error);
-                    document.getElementById('loading').style.display = 'none';
-                    document.getElementById('placeholder').style.display = 'block';
+                    setDisplay('loading', 'none');
+                    setDisplay('placeholder', 'block');
                     return;
                 }
 
@@ -3603,18 +3717,28 @@
                 displayResults(data, home, away, odds);
 
             } catch (err) {
-                alert('Prediction failed');
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('placeholder').style.display = 'block';
+                console.error('Prediction error:', err);
+                alert(`Prediction failed: ${err.message || 'Unknown error. Please check the console for details.'}`);
+                setDisplay('loading', 'none');
+                setDisplay('placeholder', 'block');
             }
         }
 
         function displayResults(data, home, away, odds) {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('results').classList.add('active');
+            // Helper function to safely set element display
+            const setDisplay = (id, display) => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = display;
+            };
 
-            document.getElementById('resultMatch').textContent = `${home} vs ${away}`;
-            document.getElementById('resultLambda').textContent = data.lambda;
+            setDisplay('loading', 'none');
+            const resultsEl = document.getElementById('results');
+            if (resultsEl) resultsEl.classList.add('active');
+
+            const resultMatchEl = document.getElementById('resultMatch');
+            if (resultMatchEl) resultMatchEl.textContent = `${home} vs ${away}`;
+            const resultLambdaEl = document.getElementById('resultLambda');
+            if (resultLambdaEl) resultLambdaEl.textContent = data.lambda;
 
             // All available lines grouped by over/under
             const allLines = ['o15', 'u15', 'o25', 'u25', 'o35', 'u35', 'o45', 'u45', 'o55', 'u55', 'o65', 'u65'];
@@ -3655,7 +3779,8 @@
                     </tr>
                 `;
             });
-            document.getElementById('probTable').innerHTML = tableHtml;
+            const probTableEl = document.getElementById('probTable');
+            if (probTableEl) probTableEl.innerHTML = tableHtml;
 
             // Find best available bet from all entered odds
             let bestAvailableBet = null;
@@ -3674,83 +3799,162 @@
             lastPrediction.bestAvailableEdge = bestAvailableEdge;
 
             if (data.best_bet && data.best_edge > 5) {
-                // Value bet found
-                document.getElementById('bestBet').style.display = 'block';
-                document.getElementById('noValue').style.display = 'none';
-                document.getElementById('bestBetLine').textContent = lineLabels[data.best_bet] || data.best_bet.toUpperCase();
-                document.getElementById('bestBetEdge').textContent = `+${data.best_edge}% edge`;
-                document.getElementById('logBtn').style.display = 'block';
-                document.getElementById('logBtn').textContent = 'Log Bet for CLV Tracking';
-                document.getElementById('logBtn').disabled = false;
-                document.getElementById('bestAvailableSection').style.display = 'none';
-            } else {
-                // No value bet found - show best available option
-                document.getElementById('bestBet').style.display = 'none';
-                document.getElementById('noValue').style.display = 'block';
-                document.getElementById('logBtn').style.display = 'none';
+                // Value bet found - show dropdown selection with best bet pre-selected
+                setDisplay('bestBet', 'block');
+                setDisplay('noValue', 'none');
+                const bestBetLineEl = document.getElementById('bestBetLine');
+                if (bestBetLineEl) bestBetLineEl.textContent = lineLabels[data.best_bet] || data.best_bet.toUpperCase();
+                const bestBetEdgeEl = document.getElementById('bestBetEdge');
+                if (bestBetEdgeEl) bestBetEdgeEl.textContent = `+${data.best_edge}% edge`;
                 
-                // Show best available if any odds were entered
-                // Collect all bets with odds entered
+                // Collect all bets with odds entered (check for odds and probabilities)
                 const availableBets = [];
                 allLines.forEach(line => {
-                    if (odds[line] && data.edges[line] !== undefined) {
+                    if (odds[line] && odds[line] !== '' && odds[line] !== '-' && data.probs && data.probs[line] !== undefined) {
+                        const edge = data.edges && data.edges[line] !== undefined ? data.edges[line] : null;
                         availableBets.push({
                             line: line,
                             label: lineLabels[line],
-                            edge: data.edges[line],
+                            edge: edge,
                             prob: data.probs[line],
                             bookOdds: odds[line]
                         });
                     }
                 });
 
-                // Sort by edge (best first)
-                availableBets.sort((a, b) => b.edge - a.edge);
+                // Sort by edge (best first), or by probability if no edge
+                availableBets.sort((a, b) => {
+                    if (a.edge !== null && b.edge !== null) {
+                        return b.edge - a.edge;
+                    } else if (a.edge !== null) {
+                        return -1;
+                    } else if (b.edge !== null) {
+                        return 1;
+                    } else {
+                        return b.prob - a.prob;
+                    }
+                });
                 
                 // Store for logging
                 lastPrediction.availableBets = availableBets;
 
                 if (availableBets.length > 0) {
-                    document.getElementById('bestAvailableSection').style.display = 'block';
+                    setDisplay('bestBetAvailableSection', 'block');
+                    
+                    // Populate the dropdown
+                    const selector = document.getElementById('bestBetSelector');
+                    if (selector) {
+                        selector.innerHTML = availableBets.map((bet, idx) => {
+                            const edgeSign = bet.edge !== null && bet.edge > 0 ? '+' : '';
+                            const edgeDisplay = bet.edge !== null ? `${edgeSign}${bet.edge.toFixed(1)}%` : 'N/A';
+                            const bestTag = idx === 0 ? ' ⭐' : '';
+                            const selected = bet.line === data.best_bet ? ' selected' : '';
+                            return `<option value="${bet.line}"${selected}>${bet.label} (${edgeDisplay})${bestTag}</option>`;
+                        }).join('');
+                        
+                        // Update edge display for selected bet (default to best bet)
+                        updateBestBetEdge();
+                    }
+                    
+                    // Reset the log button
+                    const logBestBetBtn = document.getElementById('logBestBet');
+                    if (logBestBetBtn) {
+                        logBestBetBtn.textContent = 'Log for CLV';
+                        logBestBetBtn.disabled = false;
+                    }
+                    
+                    // Show/hide best indicator
+                    setDisplay('bestBetIndicator', availableBets.length > 1 ? 'flex' : 'none');
+                } else {
+                    setDisplay('bestBetAvailableSection', 'none');
+                }
+            } else {
+                // No value bet found - show best available option
+                setDisplay('bestBet', 'none');
+                setDisplay('noValue', 'block');
+                setDisplay('logBtn', 'none');
+                
+                // Show best available if any odds were entered
+                // Collect all bets with odds entered (check for odds and probabilities)
+                const availableBets = [];
+                allLines.forEach(line => {
+                    if (odds[line] && odds[line] !== '' && odds[line] !== '-' && data.probs && data.probs[line] !== undefined) {
+                        const edge = data.edges && data.edges[line] !== undefined ? data.edges[line] : null;
+                        availableBets.push({
+                            line: line,
+                            label: lineLabels[line],
+                            edge: edge,
+                            prob: data.probs[line],
+                            bookOdds: odds[line]
+                        });
+                    }
+                });
+
+                // Sort by edge (best first), or by probability if no edge
+                availableBets.sort((a, b) => {
+                    if (a.edge !== null && b.edge !== null) {
+                        return b.edge - a.edge;
+                    } else if (a.edge !== null) {
+                        return -1;
+                    } else if (b.edge !== null) {
+                        return 1;
+                    } else {
+                        return b.prob - a.prob;
+                    }
+                });
+                
+                // Store for logging
+                lastPrediction.availableBets = availableBets;
+
+                if (availableBets.length > 0) {
+                    setDisplay('bestAvailableSection', 'block');
                     
                     // Populate the dropdown
                     const selector = document.getElementById('betSelector');
-                    selector.innerHTML = availableBets.map((bet, idx) => {
-                        const edgeSign = bet.edge > 0 ? '+' : '';
-                        const bestTag = idx === 0 ? ' ⭐' : '';
-                        return `<option value="${bet.line}">${bet.label} (${edgeSign}${bet.edge.toFixed(1)}%)${bestTag}</option>`;
-                    }).join('');
-                    
-                    // Update edge display for selected bet
-                    updateSelectedBetEdge();
+                    if (selector) {
+                        selector.innerHTML = availableBets.map((bet, idx) => {
+                            const edgeSign = bet.edge !== null && bet.edge > 0 ? '+' : '';
+                            const edgeDisplay = bet.edge !== null ? `${edgeSign}${bet.edge.toFixed(1)}%` : 'N/A';
+                            const bestTag = idx === 0 ? ' ⭐' : '';
+                            return `<option value="${bet.line}">${bet.label} (${edgeDisplay})${bestTag}</option>`;
+                        }).join('');
+                        
+                        // Update edge display for selected bet
+                        updateSelectedBetEdge();
+                    }
                     
                     // Reset the log button
                     const logAnywayBtn = document.getElementById('logAnyway');
-                    logAnywayBtn.textContent = 'Log for CLV';
-                    logAnywayBtn.disabled = false;
+                    if (logAnywayBtn) {
+                        logAnywayBtn.textContent = 'Log for CLV';
+                        logAnywayBtn.disabled = false;
+                    }
                     
                     // Show/hide best indicator
-                    document.getElementById('bestIndicator').style.display = availableBets.length > 1 ? 'flex' : 'none';
+                    setDisplay('bestIndicator', availableBets.length > 1 ? 'flex' : 'none');
                 } else {
-                    document.getElementById('bestAvailableSection').style.display = 'none';
+                    setDisplay('bestAvailableSection', 'none');
                 }
             }
 
             const f = data.features;
-            document.getElementById('features').innerHTML = `
-                <div class="feature-item"><div class="feature-label">Home Rate</div><div class="feature-value">${f.home_rate}</div></div>
-                <div class="feature-item"><div class="feature-label">Away Rate</div><div class="feature-value">${f.away_rate}</div></div>
-                <div class="feature-item"><div class="feature-label">Ref Strict</div><div class="feature-value">${f.ref_strict}x</div></div>
-                <div class="feature-item"><div class="feature-label">Strength Δ</div><div class="feature-value">${f.strength_diff > 0 ? '+' : ''}${f.strength_diff}</div></div>
-                <div class="feature-item"><div class="feature-label">Derby</div><div class="feature-value">${f.is_derby ? '🔥 Yes' : 'No'}</div></div>
-                <div class="feature-item"><div class="feature-label">Top 6</div><div class="feature-value">${f.is_top6 ? '⚡ Yes' : 'No'}</div></div>
-            `;
+            const featuresEl = document.getElementById('features');
+            if (featuresEl) {
+                featuresEl.innerHTML = `
+                    <div class="feature-item"><div class="feature-label">Home Rate</div><div class="feature-value">${f.home_rate}</div></div>
+                    <div class="feature-item"><div class="feature-label">Away Rate</div><div class="feature-value">${f.away_rate}</div></div>
+                    <div class="feature-item"><div class="feature-label">Ref Strict</div><div class="feature-value">${f.ref_strict}x</div></div>
+                    <div class="feature-item"><div class="feature-label">Strength Δ</div><div class="feature-value">${f.strength_diff > 0 ? '+' : ''}${f.strength_diff}</div></div>
+                    <div class="feature-item"><div class="feature-label">Derby</div><div class="feature-value">${f.is_derby ? '🔥 Yes' : 'No'}</div></div>
+                    <div class="feature-item"><div class="feature-label">Top 6</div><div class="feature-value">${f.is_top6 ? '⚡ Yes' : 'No'}</div></div>
+                `;
+            }
             
             // Show referee analysis if available
             const refSection = document.getElementById('refAnalysisSection');
             const refAnalysis = document.getElementById('refAnalysis');
             
-            if (data.referee_analysis) {
+            if (data.referee_analysis && refAnalysis) {
                 const ra = data.referee_analysis;
                 const interpretation = ra.strictness > 1.1 ? 'STRICT' : ra.strictness < 0.9 ? 'LENIENT' : 'AVERAGE';
                 const badgeClass = interpretation === 'STRICT' ? 'strict' : 
@@ -3776,9 +3980,9 @@
                         </div>
                     </div>
                 `;
-                refSection.style.display = 'block';
-            } else {
-                refSection.style.display = 'none';
+            }
+            if (refSection) {
+                refSection.style.display = data.referee_analysis ? 'block' : 'none';
             }
             
             // Update the Explain tab with new prediction data
@@ -3796,9 +4000,14 @@
             
             const bet = lastPrediction.availableBets.find(b => b.line === selectedLine);
             if (bet) {
-                const edgeSign = bet.edge > 0 ? '+' : '';
-                edgeEl.textContent = `${edgeSign}${bet.edge.toFixed(1)}% edge`;
-                edgeEl.className = 'best-available-edge ' + (bet.edge > 0 ? 'positive' : bet.edge < -5 ? 'negative' : '');
+                if (bet.edge !== null && bet.edge !== undefined) {
+                    const edgeSign = bet.edge > 0 ? '+' : '';
+                    edgeEl.textContent = `${edgeSign}${bet.edge.toFixed(1)}% edge`;
+                    edgeEl.className = 'best-available-edge ' + (bet.edge > 0 ? 'positive' : bet.edge < -5 ? 'negative' : '');
+                } else {
+                    edgeEl.textContent = 'Edge N/A';
+                    edgeEl.className = 'best-available-edge';
+                }
             }
         }
 
@@ -3833,6 +4042,8 @@
                         odds: odds,
                         features: data.features,
                         referee_analysis: data.referee_analysis,
+                        match_date: document.getElementById('matchDate').value,
+                        match_time: document.getElementById('matchTime').value,
                         is_value_bet: false  // Not a value bet since we're in "no value" section
                     })
                 });
@@ -3840,6 +4051,74 @@
                 const result = await res.json();
                 if (result.success) {
                     const btn = document.getElementById('logAnyway');
+                    btn.textContent = '✓ Logged';
+                    btn.disabled = true;
+                }
+            } catch (err) {
+                alert('Failed to log bet');
+            }
+        }
+
+        function updateBestBetEdge() {
+            const selector = document.getElementById('bestBetSelector');
+            const selectedLine = selector.value;
+            const edgeEl = document.getElementById('selectedBestBetEdge');
+            
+            if (!lastPrediction || !lastPrediction.availableBets) return;
+            
+            const bet = lastPrediction.availableBets.find(b => b.line === selectedLine);
+            if (bet) {
+                if (bet.edge !== null && bet.edge !== undefined) {
+                    const edgeSign = bet.edge > 0 ? '+' : '';
+                    edgeEl.textContent = `${edgeSign}${bet.edge.toFixed(1)}% edge`;
+                    edgeEl.className = 'best-available-edge ' + (bet.edge > 0 ? 'positive' : bet.edge < -5 ? 'negative' : '');
+                } else {
+                    edgeEl.textContent = 'Edge N/A';
+                    edgeEl.className = 'best-available-edge';
+                }
+            }
+        }
+
+        async function logSelectedBestBet() {
+            if (!lastPrediction) return;
+            
+            const selector = document.getElementById('bestBetSelector');
+            const selectedLine = selector.value;
+            
+            if (!selectedLine) {
+                alert('Please select a bet');
+                return;
+            }
+
+            const data = lastPrediction.result;
+            const odds = lastPrediction.odds;
+
+            try {
+                const res = await fetch('/api/log_bet', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        match: `${lastPrediction.home} vs ${lastPrediction.away}`,
+                        line: selectedLine,
+                        model_prob: data.probs[selectedLine],
+                        book_odds: odds[selectedLine],
+                        edge: data.edges[selectedLine],
+                        lambda: data.lambda,
+                        home_team: lastPrediction.home,
+                        away_team: lastPrediction.away,
+                        referee: lastPrediction.referee,
+                        odds: odds,
+                        features: data.features,
+                        referee_analysis: data.referee_analysis,
+                        match_date: document.getElementById('matchDate').value,
+                        match_time: document.getElementById('matchTime').value,
+                        is_value_bet: selectedLine === lastPrediction.result.best_bet && lastPrediction.result.best_edge > 5  // Track if this was the best value bet
+                    })
+                });
+
+                const result = await res.json();
+                if (result.success) {
+                    const btn = document.getElementById('logBestBet');
                     btn.textContent = '✓ Logged';
                     btn.disabled = true;
                 }
@@ -3883,6 +4162,8 @@
                         odds: odds,  // All odds (1X2 + card markets)
                         features: data.features,
                         referee_analysis: data.referee_analysis,
+                        match_date: document.getElementById('matchDate').value,
+                        match_time: document.getElementById('matchTime').value,
                         is_value_bet: !logBestAvailable && data.best_edge > 5  // Track if this was a value bet
                     })
                 });
