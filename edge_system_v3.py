@@ -45,18 +45,40 @@ REFEREE_FALLBACK_DEPRECATED = {
 }
 
 # --- STRUCTURAL DEFINITIONS ---
+# Updated for 2025/26 Premier League Season
+
 MAJOR_DERBIES = [
-    ("Manchester Utd", "Manchester City"),
-    ("Arsenal", "Tottenham"), ("Arsenal", "Tottenham Hotspur"),
+    # Manchester Derby
+    ("Manchester United", "Manchester City"),
+    
+    # North London Derby
+    ("Arsenal", "Tottenham"),
+    
+    # Merseyside Derby
     ("Liverpool", "Everton"),
-    ("Liverpool", "Manchester Utd"),
+    
+    # North West Derby
+    ("Liverpool", "Manchester United"),
 ]
 
-LONDON_TEAMS = ["Arsenal", "Chelsea", "Tottenham", "Tottenham Hotspur", "West Ham", 
-                "West Ham United", "Crystal Palace", "Fulham", "Brentford"]
+LONDON_TEAMS = [
+    "Arsenal", 
+    "Chelsea", 
+    "Tottenham",
+    "West Ham", 
+    "Crystal Palace", 
+    "Fulham", 
+    "Brentford"
+]
 
-TOP_6 = ["Arsenal", "Chelsea", "Liverpool", "Manchester City", "Manchester Utd",
-         "Tottenham", "Tottenham Hotspur"]
+TOP_6 = [
+    "Arsenal", 
+    "Chelsea", 
+    "Liverpool", 
+    "Manchester City", 
+    "Manchester United",
+    "Tottenham"
+]
 
 
 # =============================================================================
@@ -139,7 +161,8 @@ def get_enhanced_data():
     """
     if os.path.exists(CACHE_FILE):
         print(f"📂 Loading cache: {CACHE_FILE}")
-        df = pd.read_csv(CACHE_FILE)
+        # Read CSV with encoding handling (ignore url column)
+        df = pd.read_csv(CACHE_FILE, encoding='latin-1', usecols=lambda x: x != 'url' if 'url' in x else True)
         df['date'] = pd.to_datetime(df['date'])
         return df
     

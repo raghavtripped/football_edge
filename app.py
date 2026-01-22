@@ -34,37 +34,40 @@ OVERDISPERSION_THRESHOLD = 1.25
 # Referee strictness is now computed dynamically from historical data
 
 MAJOR_DERBIES = [
-    ("Manchester Utd", "Manchester City"),
-    ("Arsenal", "Tottenham"), ("Arsenal", "Tottenham Hotspur"),
+    ("Manchester United", "Manchester City"),
+    ("Arsenal", "Tottenham"),
     ("Liverpool", "Everton"),
-    ("Liverpool", "Manchester Utd"),
+    ("Liverpool", "Manchester United"),
 ]
 
-TOP_6 = ["Arsenal", "Chelsea", "Liverpool", "Manchester City", "Manchester Utd",
-         "Tottenham", "Tottenham Hotspur"]
+TOP_6 = ["Arsenal", "Chelsea", "Liverpool", "Manchester City", "Manchester United",
+         "Tottenham"]
 
 # Global storage for computed referee stats (populated when data is loaded)
 COMPUTED_REF_STATS = {}
 
 # --- TEAM NAME NORMALIZATION (Issue 2 fix) ---
+# Maps variations TO the exact names used in match_cache_v3.csv
 TEAM_ALIASES = {
-    # Common variations
-    "Man United": "Manchester Utd",
-    "Man Utd": "Manchester Utd",
-    "Manchester United": "Manchester Utd",
+    # Common variations -> CSV canonical names
+    "Man United": "Manchester United",
+    "Man Utd": "Manchester United",
+    "Manchester Utd": "Manchester United",
     "Man City": "Manchester City",
     "Spurs": "Tottenham",
     "Tottenham Hotspur": "Tottenham",
-    "Brighton": "Brighton and Hove Albion",
-    "Brighton & Hove": "Brighton and Hove Albion",
-    "Wolves": "Wolverhampton Wanderers",
-    "Wolverhampton": "Wolverhampton Wanderers",
+    "Brighton": "Brighton & Hove Albion",
+    "Brighton and Hove Albion": "Brighton & Hove Albion",
+    "Brighton & Hove": "Brighton & Hove Albion",
+    "Wolverhampton Wanderers": "Wolves",
+    "Wolverhampton": "Wolves",
     "Nott'm Forest": "Nottingham Forest",
     "Nottm Forest": "Nottingham Forest",
+    "Nottingham Forest": "Nottingham Forest",
     "Newcastle": "Newcastle United",
     "Newcastle Utd": "Newcastle United",
-    "West Ham": "West Ham United",
-    "West Ham Utd": "West Ham United",
+    "West Ham United": "West Ham",
+    "West Ham Utd": "West Ham",
     "Leicester": "Leicester City",
     "Ipswich": "Ipswich Town",
 }
@@ -191,7 +194,8 @@ def load_and_train_model():
     if not os.path.exists(CACHE_FILE):
         return None, "Cache file not found. Run edge_system_v3.py first to generate data."
     
-    df = pd.read_csv(CACHE_FILE)
+    # Read CSV with encoding handling (ignore url column)
+    df = pd.read_csv(CACHE_FILE, encoding='latin-1', usecols=lambda x: x != 'url' if 'url' in x else True)
     df['date'] = pd.to_datetime(df['date'])
     
     # Compute team stats with time decay
